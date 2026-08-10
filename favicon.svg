@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#f2f2f3"/>
+  <rect x="6.5" y="6.5" width="19" height="19" fill="none" stroke="#1d1f20" stroke-width="1.4"/>
+  <g stroke="#ff5a1f" stroke-width="1.4">
+    <path d="M4 4h5M4 4v5"/><path d="M28 4h-5M28 4v5"/><path d="M4 28h5M4 28v-5"/><path d="M28 28h-5M28 28v-5"/>
+  </g>
+  <text x="16" y="21" text-anchor="middle" font-family="Arial Narrow, sans-serif" font-weight="700" font-size="13" fill="#1d1f20">K</text>
+</svg>
