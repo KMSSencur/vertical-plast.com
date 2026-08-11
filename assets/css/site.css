@@ -1,8 +1,7 @@
 /* KMS site layout — production layer over the Industry design system.
    Blueprint aesthetic: square corners, hairlines, corner marks, one vibrant CTA. */
 
-.page { max-width: 1060px; margin: 0 auto; background: var(--color-bg);
-  border-left: 1px solid var(--color-divider); border-right: 1px solid var(--color-divider); min-height: 100vh; }
+.page { background: var(--color-bg); min-height: 100vh; }
 
 /* monospace kicker label */
 .kicker { font-family: var(--font-mono); font-size: 10.5px; line-height: 1; letter-spacing: 0.14em;
