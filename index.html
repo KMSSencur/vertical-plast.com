@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/styles.css">
 <link rel="stylesheet" href="/assets/css/site.css">
@@ -70,12 +70,42 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
     </button>
   </header>
 
-  <main id="main" class="home-grid" data-configurator>
-    <!-- LEFT RAIL — MACHINE FINDER -->
-    <aside class="finder" aria-label="Machine finder">
-      <p class="kicker">Machine finder · always here</p>
-      <h2>Three picks.<br>One machine.</h2>
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">Vertical injection moulding · 45–450 t</p>
+        <h1 class="h-hero">Built vertical<br>for a reason.</h1>
+        <p class="lead">Vertical injection moulding holds the insert flat and lets gravity and the clamp do the fixturing. That is why insert moulding, insert overmoulding and metal overmoulding run cleaner on a vertical machine than on a horizontal one — and why the moulded part leaves the cell at a higher added value.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="/machines">Explore the range</a>
+          <a class="btn btn-secondary" href="#finder">Find your machine</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="/assets/img/double-slide-650.jpg" alt="KMS vertical injection moulding line with double sliding tables" width="666" height="500">
+      </div>
+    </section>
 
+    <!-- PROOF -->
+    <section class="stats" aria-label="Proof">
+      <div class="figures">
+        <div class="figure"><div class="fnum">12</div><p class="kicker fcap">vertical models</p></div>
+        <div class="figure"><div class="fnum">45–450 t</div><p class="kicker fcap">clamping force</p></div>
+        <div class="figure"><div class="fnum">30+</div><p class="kicker fcap">countries served</p></div>
+      </div>
+    </section>
+
+    <!-- MACHINE FINDER -->
+    <section class="section finder-section" id="finder">
+      <div class="home-finder">
+        <div>
+          <p class="kicker">Machine finder</p>
+          <h2 class="h-lg">Three picks.<br>One machine.</h2>
+          <p class="lead mt-4">Tell us the insert, the part weight and the volume. We point you to the vertical machine that fits — with its spec sheet one click away.</p>
+          <p class="note mt-4">Indicative match — confirm the final model with a KMS application engineer.</p>
+        </div>
+        <div class="finder" aria-label="Machine finder" data-configurator>
       <div class="finder-groups">
         <div class="qgroup" role="group" aria-label="Insert type">
           <div class="qtitle">01 · Insert</div>
@@ -103,35 +133,20 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
         </div>
       </div>
 
-      <div class="blueprint match">
-        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-        <p class="kicker">Match</p>
-        <div class="h-lg model" data-match-name style="font-size:26px">TYW-1200.J</div>
-        <p class="match-desc" data-match-desc>120 t · Standard vertical clamp · General insert &amp; metal overmoulding</p>
-        <a class="btn btn-primary btn-block" data-match-cta href="/machine/tyw-1200-j">View machine &amp; spec sheet</a>
-      </div>
-      <p class="note mt-4">Indicative match — the rail stays with you as you read. Confirm the final model with a KMS application engineer.</p>
-    </aside>
-
-    <!-- RIGHT COLUMN — STORY -->
-    <div>
-      <section class="section">
-        <h1 class="h-xl">Built vertical<br>for a reason.</h1>
-        <p class="lead mt-4 section-lead">Vertical injection moulding holds the insert flat and lets gravity and the clamp do the fixturing. That is why insert moulding, insert overmoulding and metal overmoulding run cleaner on a vertical machine than on a horizontal one — and why the moulded part leaves the cell at a higher added value.</p>
-      </section>
-
-      <section class="section" aria-label="Proof">
-        <p class="kicker mb-4">Proof</p>
-        <div class="figures">
-          <div class="figure"><div class="fnum">12</div><p class="kicker fcap">vertical models</p></div>
-          <div class="figure"><div class="fnum">45–450 t</div><p class="kicker fcap">clamping force</p></div>
-          <div class="figure"><div class="fnum">30+</div><p class="kicker fcap">countries served</p></div>
+          <div class="blueprint match">
+            <p class="kicker">Your match</p>
+            <div class="model" data-match-name>TYW-1200.J</div>
+            <p class="match-desc" data-match-desc>120 t · Standard vertical clamp · General insert &amp; metal overmoulding</p>
+            <a class="btn btn-primary btn-block" data-match-cta href="/machine/tyw-1200-j">View machine &amp; spec sheet</a>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="section">
-        <p class="kicker mb-3">Insert moulding</p>
-        <h2>Metal in, part out, one cycle.</h2>
+    <!-- PROCESS -->
+    <section class="section">
+      <p class="kicker">Insert moulding</p>
+      <h2 class="h-lg">Metal in, part out, one cycle.</h2>
         <figure class="blueprint mt-4" style="padding:18px 16px">
           <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
           <svg viewBox="0 0 640 130" width="100%" role="img" aria-label="Four-station vertical insert moulding process: load insert, index rotary table, inject, unload.">
@@ -151,20 +166,24 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
           <figcaption>Vertical rotary table process — a line diagram, never a hero photo.</figcaption>
         </figure>
         <p class="mt-4 section-lead">On a vertical rotary table the operator or robot loads the insert while the previous part is moulding. The table indexes, the vertical clamp closes over a stable insert, and metal overmoulding happens without the part shifting. <a href="/insert-moulding">See the full process →</a></p>
-      </section>
+    </section>
 
-      <section class="section">
-        <p class="kicker mb-3">Automation</p>
+    <!-- AUTOMATION -->
+    <section class="section finder-section">
+      <p class="kicker">Automation</p>
+      <h2 class="h-lg mb-4">Cells, not add-ons.</h2>
         <div class="grid-3">
           <div class="cell"><h3>Feeding</h3><p class="text-muted" style="font-size:13px;margin:0">Bowl, tray or magazine feeding places metal inserts into the vertical rotary table, cycle after cycle.</p></div>
           <div class="cell"><h3>Vision</h3><p class="text-muted" style="font-size:13px;margin:0">Camera checks insert presence and orientation before the clamp closes — scrap stays out of the mould.</p></div>
           <div class="cell"><h3>Take-out</h3><p class="text-muted" style="font-size:13px;margin:0">A robot removes the overmoulded part, degates and sets it down oriented for the next step.</p></div>
         </div>
-        <p class="mt-4"><a href="/automation">Automation cells, not add-ons →</a></p>
-      </section>
+        <p class="mt-6"><a class="btn btn-primary" href="/automation">Automation cells</a></p>
+    </section>
 
-      <section class="section">
-        <p class="kicker mb-3">In production</p>
+    <!-- IN PRODUCTION -->
+    <section class="section">
+      <p class="kicker">In production</p>
+      <h2 class="h-lg mb-4">Machines at work.</h2>
         <div class="grid-2">
           <figure class="blueprint duotone media wide">
             <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
@@ -175,8 +194,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
             <img src="/assets/img/turntable-450.jpg" alt="Vertical rotary table injection moulding machine, 450 t class" loading="lazy" width="480" height="270">
           </figure>
         </div>
-      </section>
-    </div>
+    </section>
   </main>
 
   <!-- FOOTER -->
