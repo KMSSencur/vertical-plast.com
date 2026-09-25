@@ -125,11 +125,11 @@
 .sim-ctrl[hidden], .sim-legend[hidden] { display: none; }
 
 /* five machines in one line; every card shares the same row tracks (subgrid),
-   so kickers, headings, drawings and step lists line up across the row */
+   so kickers, headings and drawings line up across the row */
 .sim-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
-  grid-template-rows: repeat(6, auto); column-gap: 18px; }
+  grid-template-rows: repeat(5, auto); column-gap: 18px; }
 .sim-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.sim-card { grid-row: span 6; display: grid; grid-template-rows: subgrid; row-gap: 12px; padding: 16px 14px 14px; }
+.sim-card { grid-row: span 5; display: grid; grid-template-rows: subgrid; row-gap: 12px; padding: 16px 14px 14px; }
 /* the whole card opens the type's own page (the link stretches over it) */
 .sim-link { color: inherit; text-decoration: none; }
 .sim-link::after { content: ""; position: absolute; inset: 0; z-index: 1; }

@@ -230,12 +230,14 @@
       buildFront(m, card.querySelector("[data-sim-front]"));
       buildTop(m, card.querySelector("[data-sim-top]"));
       // the HTML carries a static copy of the steps; rebuild from the phase table so they always match
-      var ol = card.querySelector("[data-sim-steps]");
-      ol.textContent = "";
-      m.ph.forEach(function (p) {
-        var li = document.createElement("li"); li.textContent = p[0]; ol.appendChild(li);
-      });
-      m.steps = ol.children;
+      var ol = card.querySelector("[data-sim-steps]");        // optional: homepage cards have none
+      if (ol) {
+        ol.textContent = "";
+        m.ph.forEach(function (p) {
+          var li = document.createElement("li"); li.textContent = p[0]; ol.appendChild(li);
+        });
+      }
+      m.steps = ol ? ol.children : [];
       machines.push(m);
     });
     if (!machines.length) return;
