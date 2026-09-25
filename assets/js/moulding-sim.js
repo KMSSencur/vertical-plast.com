@@ -8,7 +8,7 @@
   var NS = "http://www.w3.org/2000/svg";
   var W = 440, CX = 220;            // shared drawing width and machine axis
   var TOP_H = 224;                  // shared top-view height (fits the 3-station table)
-  var LABEL = 18;                   // SVG label size in viewBox units
+  var CY = 76;                      // shared injection axis in the top view
 
   var BASE = [["Clamp closes", 1.0, "close"], ["Injection unit moves down", 0.8, "down"], ["Injection", 1.2, "inject"],
               ["Holding pressure & cooling", 1.6, "cool"], ["Injection unit moves up", 0.8, "up"], ["Clamp opens", 0.9, "open"]];
@@ -26,10 +26,6 @@
   function el(t, a, p) { var e = document.createElementNS(NS, t); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
   function ease(u) { return u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; }
   function c01(u) { return u < 0 ? 0 : u > 1 ? 1 : u; }
-  function label(parent, text, x, y, anchor) {
-    el("text", { x: x, y: y, "text-anchor": anchor || "start", "font-size": LABEL, "font-family": "var(--font-mono)",
-      fill: "var(--sim-muted)", "letter-spacing": 1 }, parent).textContent = text;
-  }
   function vlab(host, text, withPhase) {
     var d = document.createElement("div"); d.className = "sim-vlab";
     var a = document.createElement("span"); a.textContent = text; d.appendChild(a);
@@ -71,28 +67,27 @@
     el("rect", { x: cx - 90, y: 0, width: 180, height: 14, fill: fr, stroke: fs, "stroke-width": 1 }, G.platen);
     el("rect", { x: cx - 48, y: 14, width: 96, height: 18, fill: "var(--sim-paper)", stroke: st, "stroke-width": 1.2 }, G.platen);
     G.rods = [cx - 52, cx + 52].map(function (x) { return el("rect", { x: x - 4, y: 50, width: 8, height: 10, fill: fs }, s); });
-    el("line", { x1: cx, y1: 20, x2: cx, y2: 236, stroke: "var(--sim-melt-d)", "stroke-width": 1, "stroke-dasharray": "4 4", opacity: 0.55 }, s);
+    el("line", { x1: cx, y1: 20, x2: cx, y2: 236, stroke: "var(--sim-axis)", "stroke-width": 1, "stroke-dasharray": "4 4", opacity: 0.55 }, s);
     G.inj = el("g", {}, s);
     el("rect", { x: cx + 24, y: -60, width: 30, height: 34, fill: fr, stroke: fs, "stroke-width": 1 }, G.inj);
     el("path", { d: "M" + (cx - 26) + ",-46 h32 l-8,16 h-16 z", fill: fr, stroke: fs, "stroke-width": 1 }, G.inj);
     el("rect", { x: cx - 11, y: -30, width: 22, height: 88, fill: "var(--sim-paper)", stroke: st, "stroke-width": 1.2 }, G.inj);
-    for (var h = 0; h < 4; h++) el("rect", { x: cx - 13, y: -18 + h * 18, width: 26, height: 7, fill: "var(--sim-melt-d)", opacity: 0.22 }, G.inj);
+    for (var h = 0; h < 4; h++) el("rect", { x: cx - 13, y: -18 + h * 18, width: 26, height: 7, fill: "var(--sim-steel-2)", opacity: 0.35 }, G.inj);
     G.screw = el("rect", { x: cx - 4, y: -26, width: 8, height: 40, fill: st }, G.inj);
     G.melt = el("rect", { x: cx - 7, y: 40, width: 14, height: 14, fill: "var(--sim-melt)" }, G.inj);
     el("path", { d: "M" + (cx - 11) + ",58 h22 l-8,12 h-6 z", fill: "var(--sim-paper)", stroke: st, "stroke-width": 1.2 }, G.inj);
     G.jet = el("rect", { x: cx - 2, y: 70, width: 4, height: 0, fill: "var(--sim-melt)" }, G.inj);
-    if (side) label(s, "operator ▸", cx + 150, 284, "middle");
     m.F = G;
   }
 
   /* ── top view ── */
   function buildTop(m, host) {
-    var cx = CX, side = SIDE[m.kind], cy = (m.kind === "out" || m.kind === "rot") ? 70 : 76;
-    vlab(host, side ? "Top view · operator bottom" : "Top view");
+    vlab(host, "Top view · operator bottom");
+    var cx = CX, cy = CY;
     var s = el("svg", { viewBox: "0 0 " + W + " " + TOP_H, role: "img", "aria-label": m.name + ", top view of the table" }, host);
     var G = { cx: cx, cy: cy }, fr = "var(--sim-frame)", fs = "var(--sim-frame-s)";
-    el("rect", { x: cx - 130, y: 6, width: 260, height: (m.kind === "out" || m.kind === "rot") ? 118 : 140, fill: fr, stroke: fs, "stroke-width": 1 }, s);
-    var ty = (m.kind === "out" || m.kind === "rot") ? [26, 106] : [26, 126];
+    el("rect", { x: cx - 130, y: 6, width: 260, height: 140, fill: fr, stroke: fs, "stroke-width": 1 }, s);
+    var ty = [26, 126];
     [[cx - 96, ty[0]], [cx + 96, ty[0]], [cx - 96, ty[1]], [cx + 96, ty[1]]].forEach(function (p) {
       el("circle", { cx: p[0], cy: p[1], r: 6, fill: "var(--sim-paper)", stroke: fs, "stroke-width": 1 }, s);
     });
@@ -129,9 +124,8 @@
       for (var a2 = 0; a2 < 2; a2++) for (var b = 0; b < 2; b++) nn.push(el("rect", { x: -24 + a2 * 28, y: -17 + b * 20, width: 20, height: 14, fill: "var(--sim-paper)", stroke: "var(--sim-steel-2)", "stroke-width": 1 }, g));
       G.st.push({ g: g, fx: fx, n: nn });
     }
-    el("rect", { x: -44, y: -34, width: 88, height: 68, fill: "none", stroke: "var(--sim-melt-d)", "stroke-width": 1.6, "stroke-dasharray": "5 4", transform: "translate(" + cx + "," + cy + ")" }, s);
-    el("path", { d: "M" + (cx - 8) + "," + cy + " h16 M" + cx + "," + (cy - 8) + " v16", stroke: "var(--sim-melt-d)", "stroke-width": 1.2 }, s);
-    if (m.kind === "out" || m.kind === "rot") label(s, "▾ operator", cx + 100, TOP_H - 8);
+    el("rect", { x: -44, y: -34, width: 88, height: 68, fill: "none", stroke: "var(--sim-axis)", "stroke-width": 1.6, "stroke-dasharray": "5 4", transform: "translate(" + cx + "," + cy + ")" }, s);
+    el("path", { d: "M" + (cx - 8) + "," + cy + " h16 M" + cx + "," + (cy - 8) + " v16", stroke: "var(--sim-axis)", "stroke-width": 1.2 }, s);
     m.T2 = G;
   }
 
@@ -194,10 +188,10 @@
       });
       q.lm.setAttribute("stroke", (act && S.clamp > 0.02) ? "var(--sim-melt-d)" : "var(--sim-steel)");
     });
-    if (m.kind === "rot") {                              // draw the rear station first
-      F.stations.map(function (q, i) { return i; })
-        .sort(function (a, b) { return Math.cos(rotA[a]) - Math.cos(rotA[b]); })
-        .forEach(function (i) { F.table.appendChild(F.stations[i].g); });
+    if (m.kind === "rot") {                              // draw the rear station first; reorder only on change
+      var ord = F.stations.map(function (q, i) { return i; })
+        .sort(function (a, b) { return Math.cos(rotA[a]) - Math.cos(rotA[b]); });
+      if (ord.join() !== F.order) { ord.forEach(function (i) { F.table.appendChild(F.stations[i].g); }); F.order = ord.join(); }
     }
     var cy = T.cy;
     T.st.forEach(function (q, i) {
@@ -231,11 +225,13 @@
     root.querySelectorAll("[data-sim-machine]").forEach(function (card) {
       var def = TYPES[card.getAttribute("data-sim-machine")];
       if (!def) return;
-      var m = { kind: def.kind, n: def.n, name: def.name, ph: BASE.concat(def.tail), cyc: 0, lastPhase: -1 };
+      var m = { kind: def.kind, n: def.n, name: def.name, ph: BASE.concat(def.tail), cyc: 0, lastPhase: -1, vis: true, card: card };
       m.T = m.ph.reduce(function (a, p) { return a + p[1]; }, 0);
       buildFront(m, card.querySelector("[data-sim-front]"));
       buildTop(m, card.querySelector("[data-sim-top]"));
+      // the HTML carries a static copy of the steps; rebuild from the phase table so they always match
       var ol = card.querySelector("[data-sim-steps]");
+      ol.textContent = "";
       m.ph.forEach(function (p) {
         var li = document.createElement("li"); li.textContent = p[0];
         var t = document.createElement("span"); t.className = "t"; t.textContent = p[1].toFixed(1) + " s";
@@ -247,35 +243,45 @@
     if (!machines.length) return;
 
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var playing = !reduce, visible = true, speed = 1, last = null;
+    var playing = !reduce, speed = 1, last = null, rafId = null;
     var clock = machines.map(function (m) { return m.T * 0.3; });
     machines.forEach(function (m, i) { render(m, clock[i]); });
 
+    function anyVisible() { return machines.some(function (m) { return m.vis; }); }
     function tick(ts) {
       if (last == null) last = ts;
       var dt = Math.min(0.1, (ts - last) / 1000) * speed; last = ts;
-      if (playing && visible) machines.forEach(function (m, i) {
+      machines.forEach(function (m, i) {
         clock[i] += dt;
         if (clock[i] >= m.T) { clock[i] -= m.T; m.cyc++; }
-        render(m, clock[i]);
+        if (m.vis) render(m, clock[i]);                   // off-screen cards keep time but skip drawing
       });
-      requestAnimationFrame(tick);
+      rafId = (playing && anyVisible()) ? requestAnimationFrame(tick) : null;
     }
-    requestAnimationFrame(tick);
+    function start() { if (!rafId && playing && anyVisible()) { last = null; rafId = requestAnimationFrame(tick); } }
 
-    // only animate while the section is on screen
+    // only animate the cards that are on screen (the row scrolls sideways on narrow screens)
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        visible = entries[0].isIntersecting; last = null;
-      }).observe(root);
-    }
+      machines.forEach(function (m) { m.vis = false; });
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          machines.forEach(function (m) { if (m.card === e.target) m.vis = e.isIntersecting; });
+        });
+        start();
+      });
+      machines.forEach(function (m) { io.observe(m.card); });
+    } else start();
 
     var ctrl = root.querySelector("[data-sim-ctrl]"), legend = root.querySelector("[data-sim-legend]");
     if (ctrl) ctrl.hidden = false;
     if (legend) legend.hidden = false;
     var play = root.querySelector("[data-sim-play]");
-    function syncPlay() { if (play) play.textContent = playing ? "❚❚ Pause" : "▶ Play"; }
-    if (play) play.addEventListener("click", function () { playing = !playing; last = null; syncPlay(); });
+    function syncPlay() {
+      if (!play) return;
+      play.querySelector("[data-sim-play-icon]").textContent = playing ? "❚❚" : "▶";
+      play.querySelector("[data-sim-play-label]").textContent = playing ? "Pause" : "Play";
+    }
+    if (play) play.addEventListener("click", function () { playing = !playing; syncPlay(); start(); });
     syncPlay();
     var speeds = root.querySelectorAll("[data-sim-speed]");
     speeds.forEach(function (b) {

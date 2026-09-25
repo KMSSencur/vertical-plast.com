@@ -11,6 +11,7 @@ No build step, no framework — plain HTML/CSS/JS. It deploys to Vercel or GitHu
 
 ```
 index.html              Homepage — sticky machine finder (configurator) + product story (wireframe 2c)
+                        + moulding cycle simulation, five table concepts animated (#cycles)
 machines.html           Machine range — /machines — compare table with live filters (3a)
 machine/<slug>.html     12 machine detail pages — /machine/<slug> — spec-sheet-first (3b)
 insert-moulding.html    Insert & overmoulding process — /insert-moulding (3c)
@@ -23,6 +24,7 @@ assets/css/styles.css   Design-system tokens + components (blueprint objects, du
 assets/css/site.css     Production layout (header, finder rail, sections, footer, responsive)
 assets/js/machines.js   Machine catalogue (single source of truth) + configurator match logic
 assets/js/site.js       Configurator, range filters/highlight, detail tabs, mobile nav
+assets/js/moulding-sim.js  Moulding cycle simulation — SVG animation of the five table concepts
 assets/img/             Product photography (duotoned in-page via CSS)
 vercel.json             cleanUrls, security + cache headers
 robots.txt, sitemap.xml SEO

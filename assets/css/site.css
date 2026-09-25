@@ -117,34 +117,37 @@
   --sim-paper: var(--color-neutral-100); --sim-frame: var(--color-surface); --sim-frame-s: var(--color-neutral-400);
   --sim-table: var(--color-accent-100); --sim-rail: var(--color-neutral-300);
   --sim-insert: var(--color-accent); --sim-part: var(--color-accent-800);
-  --sim-melt: var(--accent); --sim-melt-d: var(--accent-700); --sim-muted: var(--color-neutral-600); }
+  --sim-axis: var(--color-accent-700);
+  --sim-melt: var(--accent); --sim-melt-d: var(--accent-700); }
 .sim-head { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; margin-bottom: 26px; }
 .sim-head .section-lead { max-width: 620px; margin-bottom: 0; }
 .sim-ctrl { gap: 8px; }
 .sim-ctrl[hidden], .sim-legend[hidden] { display: none; }
 
 /* five machines in one line; every card shares the same row tracks (subgrid),
-   so headings, drawings and step lists line up across the row */
+   so kickers, headings, drawings and step lists line up across the row */
 .sim-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
-  grid-template-rows: repeat(5, auto); column-gap: 18px; }
-.sim-card { grid-row: span 5; display: grid; grid-template-rows: subgrid; row-gap: 12px; padding: 16px 14px 14px; }
+  grid-template-rows: repeat(6, auto); column-gap: 18px; }
+.sim-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.sim-card { grid-row: span 6; display: grid; grid-template-rows: subgrid; row-gap: 12px; padding: 16px 14px 14px; }
+.sim-card .kicker { line-height: 1.35; margin: 0; align-self: end; }
 .sim-card h3 { font-size: 22px; margin: 0; }
 .sim-desc { font-size: 13px; margin: 0; }
-.sim-view { display: grid; gap: 4px; align-content: start; }
-.sim-view:empty, .sim-steps:empty { display: none; }
-/* view labels never wrap, so every drawing starts at the same height */
-.sim-vlab { display: grid; gap: 3px; font-family: var(--font-mono); font-size: 10px; line-height: 1.2;
+/* label on top, drawing pinned to the bottom of the shared row: every drawing starts at
+   the same height even when a label wraps; the phase line reserves two lines so the
+   layout never jumps as the phase text changes */
+.sim-view { display: grid; grid-template-rows: 1fr auto; gap: 4px; }
+.sim-view:empty { display: none; }
+.sim-vlab { display: grid; gap: 3px; align-content: start; font-family: var(--font-mono); font-size: 10px; line-height: 1.2;
   letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); }
-.sim-vlab span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sim-vlab [data-sim-phase] { color: var(--accent-ink); }
+.sim-vlab [data-sim-phase] { color: var(--accent-ink); min-height: 2.4em; }
 .sim-view svg { display: block; width: 100%; height: auto; }
 
 .sim-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; align-content: start; counter-reset: s; }
 .sim-steps li { counter-increment: s; display: grid; grid-template-columns: 18px 1fr auto; gap: 6px; align-items: baseline;
   font-size: 12.5px; line-height: 1.3; padding: 4px 6px; border-left: 2px solid transparent;
-  color: color-mix(in srgb, var(--color-text) 60%, transparent); }
-.sim-steps li::before { content: counter(s, decimal-leading-zero); font-family: var(--font-mono); font-size: 10px;
-  color: color-mix(in srgb, var(--color-text) 40%, transparent); }
+  color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+.sim-steps li::before { content: counter(s, decimal-leading-zero); font-family: var(--font-mono); font-size: 10px; color: inherit; }
 .sim-steps .t { font-family: var(--font-mono); font-size: 10.5px; font-variant-numeric: tabular-nums; }
 .sim-steps li.on { color: var(--color-text); border-left-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 9%, transparent); }
@@ -157,13 +160,13 @@
 .sw-insert { background: var(--sim-insert); }
 .sw-part { background: var(--sim-part); }
 .sw-melt { background: var(--sim-melt); }
-.sw-axis { border: 1.5px dashed var(--sim-melt-d); }
+.sw-axis { border: 1.5px dashed var(--sim-axis); }
 .sim-swipe { display: none !important; margin-left: auto; color: var(--accent-ink); }
 
 /* narrower screens: keep the machines in one line and scroll the row sideways */
 @media (max-width: 1180px) {
   .sim-row { grid-auto-columns: 272px; overflow-x: auto; scroll-snap-type: x mandatory;
-    padding: 7px 7px 14px; margin: -7px -7px 0; overscroll-behavior-x: contain; }
+    padding: 7px 7px 14px; margin: -7px -7px 0; scroll-padding-inline: 7px; overscroll-behavior-x: contain; }
   .sim-card { scroll-snap-align: start; }
   .sim-swipe { display: inline-flex !important; }
 }
