@@ -69,8 +69,7 @@ highlights the same suggested model.
 
 ## ⚠️ Before launch — replace these placeholders
 
-- **Canonical domain.** Everything uses `https://www.kms.si`. Find-and-replace to your real domain in
-  all `.html`, `sitemap.xml` and `robots.txt` if different.
+- **Canonical domain.** The site uses `https://www.vertical-plast.com` (canonical links, Open Graph, JSON-LD, sitemap, robots.txt). KMS company links (www.kms.si, info@kms.si) are separate and intentional.
 - **Contact details.** Filled in from kms.si (KMS, d.o.o., Poslovna cona A 34, 4208 Šenčur ·
   +386 4 25 16 150 · info@kms.si) in the top bar, footer and Downloads page. Confirm before launch
   whether sales enquiries should go to a dedicated address instead of `info@kms.si`.

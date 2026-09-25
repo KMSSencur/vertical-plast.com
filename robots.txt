@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.kms.si/sitemap.xml
+Sitemap: https://www.vertical-plast.com/sitemap.xml
