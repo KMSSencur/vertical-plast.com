@@ -14,6 +14,7 @@ index.html              Homepage — sticky machine finder (configurator) + prod
                         + moulding cycle simulation, five table concepts animated (#cycles)
 machines.html           Machine range — /machines — compare table with live filters (3a)
 machine/<slug>.html     12 machine detail pages — /machine/<slug> — spec-sheet-first (3b)
+table/<type>.html       5 table-concept pages — /table/<type> — one animated cycle each, opened from the homepage simulation
 insert-moulding.html    Insert & overmoulding process — /insert-moulding (3c)
 automation.html         Automation cells — /automation (3d)
 service.html            Service & support — /service

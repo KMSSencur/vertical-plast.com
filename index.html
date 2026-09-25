@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/styles.css">
-<link rel="stylesheet" href="/assets/css/site.css?v=20260925">
+<link rel="stylesheet" href="/assets/css/site.css?v=20260925-2">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -71,6 +71,121 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
   </header>
 
   <main id="main">
+    <!-- TOP — MOULDING CYCLE SIMULATION (each type opens its own page) -->
+    <section class="section sim" id="cycles" aria-labelledby="cycles-title" data-sim>
+      <div class="sim-head">
+        <div>
+          <p class="kicker mb-3">Table concepts · animated</p>
+          <h2 id="cycles-title">One clamp. Five ways to feed it.</h2>
+          <p class="mt-3 section-lead">The vertical clamp closes, the injection unit drops onto the mould, injects and lifts away. What happens next depends on the table: it waits for the operator, slides out towards them, shuttles a second mould in, or turns so loading and moulding run in parallel.</p>
+        </div>
+        <div class="row sim-ctrl" role="group" aria-label="Animation controls" hidden data-sim-ctrl>
+          <button type="button" class="chip" data-sim-play><span aria-hidden="true" data-sim-play-icon>❚❚</span> <span data-sim-play-label>Pause</span></button>
+          <button type="button" class="chip" data-sim-speed="0.5" aria-pressed="false">0.5×</button>
+          <button type="button" class="chip" data-sim-speed="1" aria-pressed="true">1×</button>
+          <button type="button" class="chip" data-sim-speed="2" aria-pressed="false">2×</button>
+        </div>
+      </div>
+
+      <div class="sim-row" data-sim-row tabindex="0" role="region" aria-label="Five table concepts, side by side">
+        <article class="blueprint sim-card" data-sim-machine="fix">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <p class="kicker">Type 1 · standard table</p>
+          <h3><a class="sim-link" href="/table/standard">Standard table</a></h3>
+          <p class="sim-desc text-muted">One lower mould on a fixed table. The operator unloads the part and places the next insert between the tie bars while the machine waits.</p>
+          <div class="sim-view" data-sim-front></div>
+          <div class="sim-view" data-sim-top></div>
+          <ol class="sim-steps" data-sim-steps>
+            <li>Clamp closes</li>
+            <li>Injection unit moves down</li>
+            <li>Injection</li>
+            <li>Holding pressure &amp; cooling</li>
+            <li>Injection unit moves up</li>
+            <li>Clamp opens</li>
+            <li>Operator unloads &amp; loads insert</li>
+          </ol>
+        </article>
+        <article class="blueprint sim-card" data-sim-machine="out">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <p class="kicker">Type 2 · single slide</p>
+          <h3><a class="sim-link" href="/table/single-slide">Single slide table</a></h3>
+          <p class="sim-desc text-muted">One lower mould on a table that slides out of the clamp towards the operator. Loading happens outside the clamp area, safe and with a clear view.</p>
+          <div class="sim-view" data-sim-front></div>
+          <div class="sim-view" data-sim-top></div>
+          <ol class="sim-steps" data-sim-steps>
+            <li>Clamp closes</li>
+            <li>Injection unit moves down</li>
+            <li>Injection</li>
+            <li>Holding pressure &amp; cooling</li>
+            <li>Injection unit moves up</li>
+            <li>Clamp opens</li>
+            <li>Table slides out</li>
+            <li>Operator unloads &amp; loads insert</li>
+            <li>Table slides in</li>
+          </ol>
+        </article>
+        <article class="blueprint sim-card" data-sim-machine="sld">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <p class="kicker">Type 3 · double slide</p>
+          <h3><a class="sim-link" href="/table/double-slide">Sliding table</a></h3>
+          <p class="sim-desc text-muted">Two lower moulds on a shuttle. One is moulded while the operator loads the other, then the table slides across.</p>
+          <div class="sim-view" data-sim-front></div>
+          <div class="sim-view" data-sim-top></div>
+          <ol class="sim-steps" data-sim-steps>
+            <li>Clamp closes</li>
+            <li>Injection unit moves down</li>
+            <li>Injection</li>
+            <li>Holding pressure &amp; cooling</li>
+            <li>Injection unit moves up</li>
+            <li>Clamp opens</li>
+            <li>Table slides to next mould</li>
+          </ol>
+        </article>
+        <article class="blueprint sim-card" data-sim-machine="rot2">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <p class="kicker">Type 4 · rotary table, 2&nbsp;stations</p>
+          <h3><a class="sim-link" href="/table/rotary-2-station">Rotary table</a></h3>
+          <p class="sim-desc text-muted">Two stations on a turntable. Moulding runs at the back, loading at the front, and the table turns 180° each cycle.</p>
+          <div class="sim-view" data-sim-front></div>
+          <div class="sim-view" data-sim-top></div>
+          <ol class="sim-steps" data-sim-steps>
+            <li>Clamp closes</li>
+            <li>Injection unit moves down</li>
+            <li>Injection</li>
+            <li>Holding pressure &amp; cooling</li>
+            <li>Injection unit moves up</li>
+            <li>Clamp opens</li>
+            <li>Table rotates 180°</li>
+          </ol>
+        </article>
+        <article class="blueprint sim-card" data-sim-machine="rot3">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <p class="kicker">Type 5 · rotary table, 3&nbsp;stations</p>
+          <h3><a class="sim-link" href="/table/rotary-3-station">Multi-station rotary</a></h3>
+          <p class="sim-desc text-muted">Three stations indexing 120°. One is moulded, one keeps cooling after injection and one is unloaded and loaded by the operator, for long cooling times or insert-heavy parts.</p>
+          <div class="sim-view" data-sim-front></div>
+          <div class="sim-view" data-sim-top></div>
+          <ol class="sim-steps" data-sim-steps>
+            <li>Clamp closes</li>
+            <li>Injection unit moves down</li>
+            <li>Injection</li>
+            <li>Holding pressure &amp; cooling</li>
+            <li>Injection unit moves up</li>
+            <li>Clamp opens</li>
+            <li>Table rotates 120°</li>
+          </ol>
+        </article>
+      </div>
+
+      <div class="sim-legend" hidden data-sim-legend>
+        <span><i class="sw sw-insert"></i>Insert loaded</span>
+        <span><i class="sw sw-part"></i>Moulded part</span>
+        <span><i class="sw sw-melt"></i>Melt / active mould</span>
+        <span><i class="sw sw-axis"></i>Injection axis</span>
+        <span class="sim-swipe">Swipe to compare →</span>
+      </div>
+    </section>
+
   <div class="home-grid" data-configurator>
     <!-- LEFT RAIL — MACHINE FINDER -->
     <aside class="finder" aria-label="Machine finder">
@@ -151,7 +266,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
           </svg>
           <figcaption>Vertical rotary table process — a line diagram, never a hero photo.</figcaption>
         </figure>
-        <p class="mt-4 section-lead">On a vertical rotary table the operator or robot loads the insert while the previous part is moulding. The table indexes, the vertical clamp closes over a stable insert, and metal overmoulding happens without the part shifting. <a href="/insert-moulding">See the full process →</a> · <a href="#cycles">Compare five table concepts ↓</a></p>
+        <p class="mt-4 section-lead">On a vertical rotary table the operator or robot loads the insert while the previous part is moulding. The table indexes, the vertical clamp closes over a stable insert, and metal overmoulding happens without the part shifting. <a href="/insert-moulding">See the full process →</a></p>
       </section>
 
       <section class="section">
@@ -180,120 +295,6 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
     </div>
   </div>
 
-    <!-- FULL WIDTH — MOULDING CYCLE SIMULATION -->
-    <section class="section sim" id="cycles" aria-labelledby="cycles-title" data-sim>
-      <div class="sim-head">
-        <div>
-          <p class="kicker mb-3">Table concepts · animated</p>
-          <h2 id="cycles-title">One clamp. Five ways to feed it.</h2>
-          <p class="mt-3 section-lead">The vertical clamp closes, the injection unit drops onto the mould, injects and lifts away. What happens next depends on the table: it waits for the operator, slides out towards them, shuttles a second mould in, or turns so loading and moulding run in parallel.</p>
-        </div>
-        <div class="row sim-ctrl" role="group" aria-label="Animation controls" hidden data-sim-ctrl>
-          <button type="button" class="chip" data-sim-play><span aria-hidden="true" data-sim-play-icon>❚❚</span> <span data-sim-play-label>Pause</span></button>
-          <button type="button" class="chip" data-sim-speed="0.5" aria-pressed="false">0.5×</button>
-          <button type="button" class="chip" data-sim-speed="1" aria-pressed="true">1×</button>
-          <button type="button" class="chip" data-sim-speed="2" aria-pressed="false">2×</button>
-        </div>
-      </div>
-
-      <div class="sim-row" data-sim-row tabindex="0" role="region" aria-label="Five table concepts, side by side">
-        <article class="blueprint sim-card" data-sim-machine="fix">
-          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <p class="kicker">Type 1 · standard table</p>
-          <h3>Standard table</h3>
-          <p class="sim-desc text-muted">One lower mould on a fixed table. The operator unloads the part and places the next insert between the tie bars while the machine waits.</p>
-          <div class="sim-view" data-sim-front></div>
-          <div class="sim-view" data-sim-top></div>
-          <ol class="sim-steps" data-sim-steps>
-            <li>Clamp closes<span class="t">1.0 s</span></li>
-            <li>Injection unit moves down<span class="t">0.8 s</span></li>
-            <li>Injection<span class="t">1.2 s</span></li>
-            <li>Holding pressure &amp; cooling<span class="t">1.6 s</span></li>
-            <li>Injection unit moves up<span class="t">0.8 s</span></li>
-            <li>Clamp opens<span class="t">0.9 s</span></li>
-            <li>Operator unloads &amp; loads insert<span class="t">2.4 s</span></li>
-          </ol>
-        </article>
-        <article class="blueprint sim-card" data-sim-machine="out">
-          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <p class="kicker">Type 2 · single slide</p>
-          <h3>Single slide table</h3>
-          <p class="sim-desc text-muted">One lower mould on a table that slides out of the clamp towards the operator. Loading happens outside the clamp area, safe and with a clear view.</p>
-          <div class="sim-view" data-sim-front></div>
-          <div class="sim-view" data-sim-top></div>
-          <ol class="sim-steps" data-sim-steps>
-            <li>Clamp closes<span class="t">1.0 s</span></li>
-            <li>Injection unit moves down<span class="t">0.8 s</span></li>
-            <li>Injection<span class="t">1.2 s</span></li>
-            <li>Holding pressure &amp; cooling<span class="t">1.6 s</span></li>
-            <li>Injection unit moves up<span class="t">0.8 s</span></li>
-            <li>Clamp opens<span class="t">0.9 s</span></li>
-            <li>Table slides out<span class="t">1.0 s</span></li>
-            <li>Operator unloads &amp; loads insert<span class="t">2.0 s</span></li>
-            <li>Table slides in<span class="t">1.0 s</span></li>
-          </ol>
-        </article>
-        <article class="blueprint sim-card" data-sim-machine="sld">
-          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <p class="kicker">Type 3 · double slide</p>
-          <h3>Sliding table</h3>
-          <p class="sim-desc text-muted">Two lower moulds on a shuttle. One is moulded while the operator loads the other, then the table slides across.</p>
-          <div class="sim-view" data-sim-front></div>
-          <div class="sim-view" data-sim-top></div>
-          <ol class="sim-steps" data-sim-steps>
-            <li>Clamp closes<span class="t">1.0 s</span></li>
-            <li>Injection unit moves down<span class="t">0.8 s</span></li>
-            <li>Injection<span class="t">1.2 s</span></li>
-            <li>Holding pressure &amp; cooling<span class="t">1.6 s</span></li>
-            <li>Injection unit moves up<span class="t">0.8 s</span></li>
-            <li>Clamp opens<span class="t">0.9 s</span></li>
-            <li>Table slides to next mould<span class="t">1.4 s</span></li>
-          </ol>
-        </article>
-        <article class="blueprint sim-card" data-sim-machine="rot2">
-          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <p class="kicker">Type 4 · rotary table, 2&nbsp;stations</p>
-          <h3>Rotary table</h3>
-          <p class="sim-desc text-muted">Two stations on a turntable. Moulding runs at the back, loading at the front, and the table turns 180° each cycle.</p>
-          <div class="sim-view" data-sim-front></div>
-          <div class="sim-view" data-sim-top></div>
-          <ol class="sim-steps" data-sim-steps>
-            <li>Clamp closes<span class="t">1.0 s</span></li>
-            <li>Injection unit moves down<span class="t">0.8 s</span></li>
-            <li>Injection<span class="t">1.2 s</span></li>
-            <li>Holding pressure &amp; cooling<span class="t">1.6 s</span></li>
-            <li>Injection unit moves up<span class="t">0.8 s</span></li>
-            <li>Clamp opens<span class="t">0.9 s</span></li>
-            <li>Table rotates 180°<span class="t">1.6 s</span></li>
-          </ol>
-        </article>
-        <article class="blueprint sim-card" data-sim-machine="rot3">
-          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <p class="kicker">Type 5 · rotary table, 3&nbsp;stations</p>
-          <h3>Multi-station rotary</h3>
-          <p class="sim-desc text-muted">Three stations indexing 120°. One is moulded, one keeps cooling after injection and one is unloaded and loaded by the operator, for long cooling times or insert-heavy parts.</p>
-          <div class="sim-view" data-sim-front></div>
-          <div class="sim-view" data-sim-top></div>
-          <ol class="sim-steps" data-sim-steps>
-            <li>Clamp closes<span class="t">1.0 s</span></li>
-            <li>Injection unit moves down<span class="t">0.8 s</span></li>
-            <li>Injection<span class="t">1.2 s</span></li>
-            <li>Holding pressure &amp; cooling<span class="t">1.6 s</span></li>
-            <li>Injection unit moves up<span class="t">0.8 s</span></li>
-            <li>Clamp opens<span class="t">0.9 s</span></li>
-            <li>Table rotates 120°<span class="t">1.3 s</span></li>
-          </ol>
-        </article>
-      </div>
-
-      <div class="sim-legend" hidden data-sim-legend>
-        <span><i class="sw sw-insert"></i>Insert loaded</span>
-        <span><i class="sw sw-part"></i>Moulded part</span>
-        <span><i class="sw sw-melt"></i>Melt / active mould</span>
-        <span><i class="sw sw-axis"></i>Injection axis</span>
-        <span class="sim-swipe">Swipe to compare →</span>
-      </div>
-    </section>
   </main>
 
   <!-- FOOTER -->
@@ -331,6 +332,6 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
 
 <script src="/assets/js/machines.js" defer></script>
 <script src="/assets/js/site.js" defer></script>
-<script src="/assets/js/moulding-sim.js?v=20260925" defer></script>
+<script src="/assets/js/moulding-sim.js?v=20260925-2" defer></script>
 </body>
 </html>

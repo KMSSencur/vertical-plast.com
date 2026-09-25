@@ -112,7 +112,7 @@
   border-left: 2px solid var(--accent); padding-left: 12px; color: color-mix(in srgb, var(--color-text) 75%, transparent); }
 
 /* ── home: moulding cycle simulation (full width) ────────── */
-.sim { border-top: 1px solid var(--color-divider);
+.sim { border-bottom: 1px solid var(--color-divider);
   --sim-line: var(--color-accent); --sim-steel: var(--color-accent-600); --sim-steel-2: var(--color-accent-400);
   --sim-paper: var(--color-neutral-100); --sim-frame: var(--color-surface); --sim-frame-s: var(--color-neutral-400);
   --sim-table: var(--color-accent-100); --sim-rail: var(--color-neutral-300);
@@ -130,6 +130,13 @@
   grid-template-rows: repeat(6, auto); column-gap: 18px; }
 .sim-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .sim-card { grid-row: span 6; display: grid; grid-template-rows: subgrid; row-gap: 12px; padding: 16px 14px 14px; }
+/* the whole card opens the type's own page (the link stretches over it) */
+.sim-link { color: inherit; text-decoration: none; }
+.sim-link::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.sim-card:hover { border-color: var(--accent); }
+.sim-card:hover .sim-link, .sim-link:focus-visible { color: var(--accent); }
+.sim-link:focus-visible { outline: none; }
+.sim-card:has(.sim-link:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
 .sim-card .kicker { line-height: 1.35; margin: 0; align-self: end; }
 .sim-card h3 { font-size: 22px; margin: 0; }
 .sim-desc { font-size: 13px; margin: 0; }
@@ -144,11 +151,10 @@
 .sim-view svg { display: block; width: 100%; height: auto; }
 
 .sim-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; align-content: start; counter-reset: s; }
-.sim-steps li { counter-increment: s; display: grid; grid-template-columns: 18px 1fr auto; gap: 6px; align-items: baseline;
+.sim-steps li { counter-increment: s; display: grid; grid-template-columns: 18px 1fr; gap: 6px; align-items: baseline;
   font-size: 12.5px; line-height: 1.3; padding: 4px 6px; border-left: 2px solid transparent;
   color: color-mix(in srgb, var(--color-text) 70%, transparent); }
 .sim-steps li::before { content: counter(s, decimal-leading-zero); font-family: var(--font-mono); font-size: 10px; color: inherit; }
-.sim-steps .t { font-family: var(--font-mono); font-size: 10.5px; font-variant-numeric: tabular-nums; }
 .sim-steps li.on { color: var(--color-text); border-left-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 9%, transparent); }
 .sim-steps li.on::before { color: var(--accent-ink); }
@@ -162,6 +168,21 @@
 .sw-melt { background: var(--sim-melt); }
 .sw-axis { border: 1.5px dashed var(--sim-axis); }
 .sim-swipe { display: none !important; margin-left: auto; color: var(--accent-ink); }
+
+/* type page (/table/<type>): one machine, large, with its steps alongside */
+.sim-page { border-bottom: 1px solid var(--color-divider); }
+.sim-detail { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 44px; align-items: start; }
+.sim-figure { display: grid; gap: 22px; padding: 22px 20px; }
+.sim-figure .sim-view { max-width: 640px; width: 100%; justify-self: center; }
+.sim-detail .sim-steps li { font-size: 15px; padding: 7px 10px; }
+.sim-detail .sim-legend { margin-top: 18px; }
+.sim-types { display: flex; flex-wrap: wrap; gap: 8px; }
+.sim-types a { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border: 1px solid var(--color-divider);
+  font-family: var(--font-heading); font-weight: 500; font-size: 14px; letter-spacing: 0.03em; color: var(--color-text); text-decoration: none; }
+.sim-types a:hover { background: color-mix(in srgb, var(--color-text) 6%, transparent); }
+.sim-types a[aria-current="page"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, transparent); }
+@media (max-width: 900px) { .sim-detail { grid-template-columns: 1fr; gap: 28px; } }
 
 /* narrower screens: keep the machines in one line and scroll the row sideways */
 @media (max-width: 1180px) {

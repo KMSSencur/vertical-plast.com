@@ -233,9 +233,7 @@
       var ol = card.querySelector("[data-sim-steps]");
       ol.textContent = "";
       m.ph.forEach(function (p) {
-        var li = document.createElement("li"); li.textContent = p[0];
-        var t = document.createElement("span"); t.className = "t"; t.textContent = p[1].toFixed(1) + " s";
-        li.appendChild(t); ol.appendChild(li);
+        var li = document.createElement("li"); li.textContent = p[0]; ol.appendChild(li);
       });
       m.steps = ol.children;
       machines.push(m);
