@@ -71,8 +71,10 @@ highlights the same suggested model.
 
 - **Canonical domain.** Everything uses `https://www.kms.si`. Find-and-replace to your real domain in
   all `.html`, `sitemap.xml` and `robots.txt` if different.
-- **Contact details.** `sales@kms.si` and `+386 (0)1 000 00 00` are placeholders (footer + Downloads
-  page). Replace with live KMS sales contact.
+- **Contact details.** Filled in from kms.si (KMS, d.o.o., Poslovna cona A 34, 4208 Šenčur ·
+  +386 4 25 16 150 · info@kms.si) in the top bar, footer and Downloads page. Confirm before launch
+  whether sales enquiries should go to a dedicated address instead of `info@kms.si`.
+- **Quotation requests (/options).** The technical file is saved in the visitor's browser (localStorage). "Send specification" opens the visitor's email program addressed to info@kms.si with the full spec. To receive it server-side instead, set `data-endpoint="https://formspree.io/f/…"` on the form in `options.html` (generator: `optionsPage()`).
 - **Download form.** `downloads.html` posts to `https://formspree.io/f/your-form-id`. Wire it to your
   form handler (Formspree, Vercel Forms, etc.) or point the buttons at real PDF files.
 - **Spec-sheet PDFs.** "Download spec sheet" links currently point to `/downloads`. Add one PDF per

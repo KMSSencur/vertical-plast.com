@@ -1,4 +1,4 @@
-/* KMS site behaviour — configurator, range highlight, tabs, mobile nav.
+/* KMS site behaviour — range highlight + filters, tabs, mobile nav.
    Progressive enhancement: every page works without JS; this only enhances. */
 (function () {
   "use strict";
@@ -21,46 +21,17 @@
       volume: s.volume || DEFAULT.volume
     };
   }
-  function saveState(s) { try { localStorage.setItem(STORE, JSON.stringify(s)); } catch (e) {} }
-
-  /* ── configurator (homepage) ── */
-  function initConfigurator() {
-    var root = document.querySelector("[data-configurator]");
-    if (!root || !window.KMS_MATCH) return;
-    var state = readState();
-
-    function paintChips() {
-      root.querySelectorAll(".chip[data-q]").forEach(function (chip) {
-        var q = chip.getAttribute("data-q"), v = chip.getAttribute("data-v");
-        chip.setAttribute("aria-pressed", String(state[q] === v));
-      });
-    }
-    function paintMatch() {
-      var m = window.KMS_MATCH(state);
-      if (!m) return;
-      var nameEl = root.querySelector("[data-match-name]");
-      var descEl = root.querySelector("[data-match-desc]");
-      var ctaEl = root.querySelector("[data-match-cta]");
-      if (nameEl) nameEl.textContent = m.model;
-      if (descEl) descEl.textContent = m.tons + " t · " + m.table + " · " + m.application;
-      if (ctaEl) ctaEl.setAttribute("href", "/machine/" + m.slug);
-    }
-    root.addEventListener("click", function (e) {
-      var chip = e.target.closest(".chip[data-q]");
-      if (!chip) return;
-      state[chip.getAttribute("data-q")] = chip.getAttribute("data-v");
-      saveState(state); paintChips(); paintMatch();
-    });
-    paintChips(); paintMatch();
-  }
 
   /* ── range table: highlight the suggested model + filter chips ── */
   function initRange() {
     var table = document.querySelector("[data-range]");
     if (!table) return;
 
-    // highlight the model suggested by the last finder answers
-    if (window.KMS_MATCH) {
+    // highlight the model suggested by answers passed in the URL (?insert=&weight=&volume=)
+    // or saved from an earlier visit — never from the defaults alone
+    var q = new URLSearchParams(location.search), hasAnswers = q.get("insert") || q.get("weight") || q.get("volume");
+    try { hasAnswers = hasAnswers || localStorage.getItem(STORE); } catch (e) {}
+    if (window.KMS_MATCH && hasAnswers) {
       var m = window.KMS_MATCH(readState());
       if (m) {
         var row = table.querySelector('tr[data-slug="' + m.slug + '"]');
@@ -74,7 +45,7 @@
           }
         }
         var banner = document.querySelector("[data-range-note]");
-        if (banner) banner.textContent = "Your last finder answers suggest the " + m.model + " (" + m.tons + " t) — highlighted below.";
+        if (banner) banner.textContent = "Your answers suggest the " + m.model + " (" + m.tons + " t) — highlighted below.";
       }
     }
 
@@ -143,6 +114,6 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    initConfigurator(); initRange(); initTabs(); initNav();
+    initRange(); initTabs(); initNav();
   });
 })();

@@ -1,13 +1,22 @@
 /* Industry — design-system tokens and component classes.
-   Source of truth for the system's look (ported from the design handoff). */
+   Source of truth for the system's look (ported from the design handoff).
+   2026-09 colour refresh: cool light page, white rounded cards, industrial blue as the
+   system colour, orange kept for CTAs, one colour per table type (--t1…--t5), photos in colour. */
 
 :root {
-  --color-bg: #f2f2f3;
-  --color-surface: #e9e9ea;
-  --color-text: #1d1f20;
-  --color-accent: #5980a6;            /* steel — lines, diagrams, duotone, focus ring */
-  --color-accent-2: #728fab;
-  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+  --color-bg: #f4f7fc;
+  --color-surface: #ffffff;
+  --color-text: #13213f;              /* navy ink */
+  --color-accent: #1f5fd6;            /* industrial blue — lines, diagrams, links, focus */
+  --color-accent-2: #00a3b4;          /* teal — second system colour */
+  --color-divider: color-mix(in srgb, #13213f 12%, transparent);
+
+  /* one colour per table type — cards, diagram tables, highlights */
+  --t1: #2f6bff;   /* standard table — blue */
+  --t2: #00a3b4;   /* single slide — teal */
+  --t3: #16a35f;   /* double slide — green */
+  --t4: #7b4dff;   /* rotary, 2 stations — violet */
+  --t5: #f09a00;   /* rotary, 3 stations — amber */
 
   /* Vibrant accent — the one deliberate brand extension. CTAs + selection only. */
   --accent: #ff5a1f;
@@ -26,15 +35,15 @@
   --color-neutral-800: #424244;
   --color-neutral-900: #2b2b2d;
 
-  --color-accent-100: #eef6ff;
-  --color-accent-200: #d6ebff;
-  --color-accent-300: #b5d9fd;
-  --color-accent-400: #94bce3;
-  --color-accent-500: #749dc4;
-  --color-accent-600: #597ea3;
-  --color-accent-700: #416180;
-  --color-accent-800: #2c455d;
-  --color-accent-900: #1d2d3d;
+  --color-accent-100: #eaf1ff;
+  --color-accent-200: #d3e2ff;
+  --color-accent-300: #a9c6ff;
+  --color-accent-400: #75a1f7;
+  --color-accent-500: #4a80ec;
+  --color-accent-600: #2f64d4;
+  --color-accent-700: #214db0;
+  --color-accent-800: #1a3c86;
+  --color-accent-900: #0f2350;
 
   --font-heading: "Barlow Condensed", system-ui, sans-serif;
   --font-heading-weight: 600;
@@ -48,13 +57,13 @@
   --space-6: 20.4px;
   --space-8: 27.2px;
 
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 7px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
 
-  --shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
-  --shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
-  --shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #13213f 8%, transparent), 0 6px 20px color-mix(in srgb, #13213f 6%, transparent);
+  --shadow-md: 0 2px 4px color-mix(in srgb, #13213f 8%, transparent), 0 14px 34px color-mix(in srgb, #13213f 12%, transparent);
+  --shadow-lg: 0 24px 60px color-mix(in srgb, #13213f 18%, transparent);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -87,8 +96,10 @@ figcaption {
 ::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); }
 
 /* — blueprint frame: the system signature — square, transparent, corner marks — */
-.blueprint { position: relative; border: 1px solid var(--color-divider); border-radius: 0; }
-.blueprint.duotone { overflow: visible; }
+.blueprint { position: relative; background: var(--color-surface); border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+.blueprint.duotone { overflow: hidden; }
+.blueprint > .corner { display: none !important; }
 .blueprint > .corner {
   position: absolute; width: 11px; height: 11px;
   color: color-mix(in srgb, var(--color-text) 55%, transparent);
@@ -103,11 +114,9 @@ figcaption {
 
 /* — duotone image treatment: photographs washed in the steel accent — */
 .duotone { position: relative; overflow: hidden; }
-.duotone > img { filter: grayscale(1) contrast(1.05); }
-.duotone::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: var(--color-accent); mix-blend-mode: color;
-}
+/* photos are shown in full colour; the class is kept so markup doesn't change */
+.duotone > img { filter: saturate(1.08); transition: transform 600ms cubic-bezier(.2,.7,.2,1); }
+.duotone:hover > img { transform: scale(1.03); }
 
 /* — rules — */
 .hr { height: 1px; border: 0; margin: var(--space-4) 0; background: var(--color-divider); }
@@ -119,14 +128,15 @@ figcaption {
   font-family: var(--font-heading); font-weight: var(--font-heading-weight);
   font-size: 14px; line-height: 1.2; color: var(--color-text);
   background: transparent; border: 1px solid var(--color-divider);
-  padding: var(--space-2) calc(var(--space-3) * 1.2); border-radius: 0;
+  padding: var(--space-2) calc(var(--space-3) * 1.4); border-radius: var(--radius-md);
 }
 .btn svg { display: block; }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-.btn-primary:hover { background: var(--accent-600); border-color: var(--accent-600); }
+.btn-primary { background: linear-gradient(135deg, #ff7a3d, var(--accent)); color: #fff; border-color: transparent;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 32%, transparent); }
+.btn-primary:hover { background: var(--accent-600); border-color: transparent; }
 .btn-primary:active { background: var(--accent-700); border-color: var(--accent-700); }
-.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary { border-color: var(--color-divider); background: var(--color-surface); }
 .btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
 .btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
 .btn-ghost { color: var(--color-accent-700); border-color: transparent; padding-inline: var(--space-1); }
@@ -142,7 +152,7 @@ figcaption {
   width: 100%; min-height: 40px; padding: 8px 10px; font: inherit;
   font-size: 14px; color: var(--color-text); caret-color: var(--accent);
   background: var(--color-surface);
-  border: 1px solid var(--color-divider); border-radius: 0;
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
 }
 .input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
 .input:focus-visible { border-color: var(--accent); outline-offset: 0; }
@@ -151,7 +161,7 @@ textarea.input { min-height: 90px; resize: vertical; }
 /* — tags — */
 .tag {
   display: inline-flex; align-items: center; font-size: 11px;
-  letter-spacing: 0.02em; padding: 3px 10px; border-radius: 0;
+  letter-spacing: 0.02em; padding: 3px 10px; border-radius: 999px;
 }
 .tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
 .tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }

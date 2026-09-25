@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KMS — Vertical Injection Moulding Machines for Insert &amp; Overmoulding</title>
-<meta name="description" content="KMS supplies vertical injection moulding machines from 45 to 450 t for insert moulding, insert overmoulding and metal overmoulding. Vertical rotary table cells that move parts to higher added value. Answer three questions and get the right model.">
+<meta name="description" content="KMS supplies vertical injection moulding machines for insert moulding, insert overmoulding and metal overmoulding. Vertical rotary table cells that move parts to higher added value. Answer three questions and get the right model.">
 <meta name="keywords" content="vertical injection moulding, insert moulding, insert overmoulding, metal overmoulding, vertical rotary table, higher added value, vertical injection molding machine">
 <link rel="canonical" href="https://www.kms.si/">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:title" content="KMS — Vertical Injection Moulding Machines for Insert &amp; Overmoulding">
-<meta property="og:description" content="Vertical injection moulding machines from 45 to 450 t for insert, overmoulding and metal overmoulding. Find the right model in three picks.">
+<meta property="og:description" content="Vertical injection moulding machines for insert, overmoulding and metal overmoulding. Find the right model in three picks.">
 <meta property="og:url" content="https://www.kms.si/">
 <meta property="og:image" content="https://www.kms.si/assets/img/machine-05.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -20,6 +20,8 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/styles.css">
 <link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/molding-sim.css">
+<link rel="stylesheet" href="/assets/css/spotlight.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -55,68 +57,193 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
 
 <div class="page">
   <!-- HEADER -->
+  <div class="topbar">
+    <p class="topbar-claim"><span class="topbar-flag" aria-hidden="true"></span><b>KMS, d.o.o.</b> — official TAYU distributor for Slovenia, Croatia and Bosnia and Herzegovina</p>
+    <p class="topbar-contact"><a href="tel:+38642516150">+386 4 25 16 150</a><a href="mailto:info@kms.si">info@kms.si</a></p>
+  </div>
   <header class="site-header">
-    <a class="brand" href="/">KMS<span>.</span></a>
+    <div class="brands">
+      <a class="brand brand-kms" href="/" title="KMS, d.o.o. — official TAYU distributor for Slovenia, Croatia and Bosnia and Herzegovina"><img src="/assets/img/kms-logo.png" alt="KMS" width="67" height="26"><small>Official TAYU distributor</small></a>
+    </div>
     <nav class="mainnav" aria-label="Primary">
       <a href="/machines">Machines</a>
+      <a href="/hybrid" class="nav-new">High precision</a>
       <a href="/insert-moulding">Insert moulding</a>
       <a href="/automation">Automation</a>
       <a href="/service">Service</a>
       <a href="/company">Company</a>
     </nav>
-    <a class="btn btn-primary header-cta" href="/downloads">Spec sheets</a>
+    <a class="techfile-link" href="/options#file" data-techfile aria-label="Your technical file">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m9 13 2 2 4-4"/></svg>
+      <span class="techfile-label">Technical file</span><span class="techfile-count" data-techfile-count hidden></span>
+    </a>
     <button class="nav-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
   </header>
 
-  <main id="main" class="home-grid" data-configurator>
-    <!-- LEFT RAIL — MACHINE FINDER -->
-    <aside class="finder" aria-label="Machine finder">
-      <p class="kicker">Machine finder · always here</p>
-      <h2>Three picks.<br>One machine.</h2>
-
-      <div class="finder-groups">
-        <div class="qgroup" role="group" aria-label="Insert type">
-          <div class="qtitle">01 · Insert</div>
-          <div class="chips">
-            <button type="button" class="chip" data-q="insert" data-v="metal" aria-pressed="true">Metal <span class="most">MOST</span></button>
-            <button type="button" class="chip" data-q="insert" data-v="cable" aria-pressed="false">Cable</button>
-            <button type="button" class="chip" data-q="insert" data-v="none" aria-pressed="false">None</button>
-          </div>
-        </div>
-        <div class="qgroup" role="group" aria-label="Part weight">
-          <div class="qtitle">02 · Part weight</div>
-          <div class="chips">
-            <button type="button" class="chip" data-q="weight" data-v="lt30" aria-pressed="false">&lt;30 g</button>
-            <button type="button" class="chip" data-q="weight" data-v="30to120" aria-pressed="true">30–120 g <span class="most">MOST</span></button>
-            <button type="button" class="chip" data-q="weight" data-v="120plus" aria-pressed="false">120 g+</button>
-          </div>
-        </div>
-        <div class="qgroup" role="group" aria-label="Volume">
-          <div class="qtitle">03 · Volume</div>
-          <div class="chips">
-            <button type="button" class="chip" data-q="volume" data-v="low" aria-pressed="false">Low</button>
-            <button type="button" class="chip" data-q="volume" data-v="series" aria-pressed="true">Series <span class="most">MOST</span></button>
-            <button type="button" class="chip" data-q="volume" data-v="high" aria-pressed="false">High</button>
-          </div>
-        </div>
+  <!-- INSERT BAND — insert-moulded parts drifting left to right (TAYU all-electric banner, cntayu.com) -->
+<div class="ib-wrap">
+  <section class="ib" aria-label="Overmoulded insert parts made on vertical injection moulding machines">
+    <div class="ib-track">
+      <figure class="ib-item"><img src="/assets/img/parts/stator-core.jpg" alt="Motor stator core with overmoulded insulation" width="238" height="237" decoding="async"><figcaption>Stator core</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/rotor-cores.jpg" alt="Rotor cores with overmoulded laminations" width="238" height="237" decoding="async"><figcaption>Rotor cores</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/wire-clip.jpg" alt="Spring wire with overmoulded plastic clips" width="238" height="237" decoding="async"><figcaption>Wire clip</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/motor-hub.jpg" alt="Metal hub overmoulded into a motor bracket" width="238" height="237" decoding="async"><figcaption>Motor hub</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/balls.jpg" alt="Moulded multi-layer golf balls" width="238" height="237" decoding="async"><figcaption>Golf balls</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/lamination-strip.jpg" alt="Stamped metal lead frame strip for insert moulding" width="238" height="237" decoding="async"><figcaption>Lead frame</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/stator-core.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Stator core</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/rotor-cores.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Rotor cores</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/wire-clip.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Wire clip</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/motor-hub.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Motor hub</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/balls.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Golf balls</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/lamination-strip.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Lead frame</figcaption></figure>
+      <div class="ib-dup" aria-hidden="true">
+      <figure class="ib-item"><img src="/assets/img/parts/stator-core.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Stator core</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/rotor-cores.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Rotor cores</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/wire-clip.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Wire clip</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/motor-hub.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Motor hub</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/balls.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Golf balls</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/lamination-strip.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Lead frame</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/stator-core.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Stator core</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/rotor-cores.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Rotor cores</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/wire-clip.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Wire clip</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/motor-hub.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Motor hub</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/balls.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Golf balls</figcaption></figure>
+      <figure class="ib-item"><img src="/assets/img/parts/lamination-strip.jpg" alt="" width="238" height="237" decoding="async"><figcaption>Lead frame</figcaption></figure>
       </div>
+    </div>
+  </section>
+  <a class="opt-teaser" href="/options" aria-label="Check available options — build your technical file">
+    <span class="opt-teaser-kicker">Technical file</span>
+    <b class="opt-teaser-title">Check available options</b>
+    <span class="opt-teaser-list" aria-hidden="true" title="Example selection">
+      <span><i></i>Robot interface · EUROMAP 67</span>
+      <span><i></i>Hydraulic core pulls · EUROMAP 13</span>
+      <span class="off"><i></i>Pneumatic valves · air blow</span>
+    </span>
+    <span class="opt-teaser-summary" data-techfile-summary hidden></span>
+    <span class="opt-teaser-cta">Select machine &amp; options <span aria-hidden="true">→</span></span>
+  </a>
+  <a class="hp-teaser" href="/hybrid" aria-label="High-precision hybrid electro-hydraulic series">
+    <span class="hp-teaser-media"><img src="/assets/img/hybrid/etu-1600.jpg" alt="" width="1000" height="1419" loading="eager"></span>
+    <span class="hp-teaser-body">
+      <span class="hp-teaser-kicker"><span class="hp-teaser-badge">New</span>High precision</span>
+      <b class="hp-teaser-title">Hybrid electro-hydraulic series</b>
+      <span class="hybrid-desc">Hydraulic clamping – electric injection</span>
+      <span class="hp-teaser-sub">0.01 mm control precision · ±2 % repeatability</span>
+      <span class="hp-teaser-cta">Discover the series <span aria-hidden="true">→</span></span>
+    </span>
+  </a>
+</div>
 
-      <div class="blueprint match">
-        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-        <p class="kicker">Match</p>
-        <div class="h-lg model" data-match-name style="font-size:26px">TYW-1200.J</div>
-        <p class="match-desc" data-match-desc>120 t · Standard vertical clamp · General insert &amp; metal overmoulding</p>
-        <a class="btn btn-primary btn-block" data-match-cta href="/machine/tyw-1200-j">View machine &amp; spec sheet</a>
-      </div>
-      <p class="note mt-4">Indicative match — the rail stays with you as you read. Confirm the final model with a KMS application engineer.</p>
-    </aside>
+  <!-- ABOUT TAYU — who makes the machines -->
+  <section class="about-tayu" aria-labelledby="about-tayu-title">
+    <div class="about-tayu-head">
+      <img class="about-tayu-logo" src="/assets/img/tayu-logo-full.png" alt="TAYU 大禹塑机" width="157" height="27">
+      <h2 id="about-tayu-title"><span class="visually-hidden">TAYU </span>— today one of the largest manufacturers of vertical injection moulding machines.</h2>
+    </div>
+    <ul class="about-tayu-facts">
+      <li title="Ranked first for years — data from the China Plastics Machinery Association"><b>No. 1</b><span>among China's top 5 vertical machine makers</span></li>
+      <li><b>4,000</b><span>machines a year</span></li>
+      <li><b>3</b><span>production bases</span></li>
+      <li><b>5,000+</b><span>customers</span></li>
+      <li><b>30+</b><span>countries</span></li>
+    </ul>
+  </section>
 
-    <!-- RIGHT COLUMN — STORY -->
+  <!-- TABLE CONCEPTS — animated vertical moulding cycles (assets/js/molding-sim.js) -->
+  <section class="section vma" id="table-concepts" aria-label="Table concepts" data-molding-sim data-operator-right="operator &#9656;" data-operator-bottom="&#9662; operator">
+    <div class="vma-row">
+
+        <article class="blueprint vma-card" style="--tc: var(--t1)" data-kind="fix" data-n="1">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div>
+            <p class="kicker">Type 1 · Standard table</p>
+            <h3>Standard table</h3>
+          </div>
+          <div class="vma-model">
+            <p class="kicker">Series</p>
+            <a class="vma-model-name" href="/series/ty">TY series →</a>
+          </div>
+          <div class="vma-view"><p class="kicker">Front view</p><div data-front></div></div>
+          <div class="vma-view"><p class="kicker">Top view · operator bottom</p><div data-top></div></div>
+        </article>
+        <article class="blueprint vma-card" style="--tc: var(--t2)" data-kind="out" data-n="1">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div>
+            <p class="kicker">Type 2 · Single slide</p>
+            <h3>Single slide table</h3>
+          </div>
+          <div class="vma-model">
+            <p class="kicker">Series</p>
+            <a class="vma-model-name" href="/series/ty-s">TY-S series →</a>
+          </div>
+          <div class="vma-view"><p class="kicker">Side view · operator right</p><div data-front></div></div>
+          <div class="vma-view"><p class="kicker">Top view · operator bottom</p><div data-top></div></div>
+        </article>
+        <article class="blueprint vma-card" style="--tc: var(--t3)" data-kind="sld" data-n="2">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div>
+            <p class="kicker">Type 3 · Double slide</p>
+            <h3>Double slide table</h3>
+          </div>
+          <div class="vma-model">
+            <p class="kicker">Series</p>
+            <a class="vma-model-name" href="/series/ty-ds">TY-DS series →</a>
+          </div>
+          <div class="vma-view"><p class="kicker">Front view</p><div data-front></div></div>
+          <div class="vma-view"><p class="kicker">Top view · operator bottom</p><div data-top></div></div>
+        </article>
+        <article class="blueprint vma-card" style="--tc: var(--t4)" data-kind="rot" data-n="2">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div>
+            <p class="kicker">Type 4 · Rotary, 2 stations</p>
+            <h3>Vertical rotary table</h3>
+          </div>
+          <div class="vma-model">
+            <p class="kicker">Series</p>
+            <a class="vma-model-name" href="/series/ty-2r">TY-2R series →</a>
+          </div>
+          <div class="vma-view"><p class="kicker">Side view · operator right</p><div data-front></div></div>
+          <div class="vma-view"><p class="kicker">Top view · operator bottom</p><div data-top></div></div>
+        </article>
+        <article class="blueprint vma-card" style="--tc: var(--t5)" data-kind="rot" data-n="3">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div>
+            <p class="kicker">Type 5 · Rotary, 3 stations</p>
+            <h3>Multi-station rotary</h3>
+          </div>
+          <div class="vma-model">
+            <p class="kicker">Series</p>
+            <a class="vma-model-name" href="/series/ty-3r">TY-3R series →</a>
+          </div>
+          <div class="vma-view"><p class="kicker">Side view · operator right</p><div data-front></div></div>
+          <div class="vma-view"><p class="kicker">Top view · operator bottom</p><div data-top></div></div>
+        </article>
+        <div class="vma-bridge">
+          <span class="vma-bridge-line" aria-hidden="true"></span>
+          <a class="vma-bridge-btn" href="/calculator">
+            <span class="vma-bridge-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></span>
+            <span class="vma-bridge-text"><b>Productivity calculator</b><small>Single slide vs. rotary table — how much more output?</small></span>
+            <span class="vma-bridge-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+    </div>
+
+    <div class="vma-legend" aria-label="Legend">
+      <span><i class="sw-insert"></i>Insert loaded</span>
+      <span><i class="sw-part"></i>Moulded part</span>
+      <span><i class="sw-melt"></i>Melt / active mould</span>
+      <span><i class="sw-axis"></i>Injection axis</span>
+    </div>
+  </section>
+
+  <main id="main">
+
     <div>
       <section class="section">
-        <h1 class="h-xl">Built vertical<br>for a reason.</h1>
+        <h1 class="h-xl">Built <span class="hl">vertical</span><br>for a reason.</h1>
         <p class="lead mt-4 section-lead">Vertical injection moulding holds the insert flat and lets gravity and the clamp do the fixturing. That is why insert moulding, insert overmoulding and metal overmoulding run cleaner on a vertical machine than on a horizontal one — and why the moulded part leaves the cell at a higher added value.</p>
       </section>
 
@@ -124,33 +251,8 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
         <p class="kicker mb-4">Proof</p>
         <div class="figures">
           <div class="figure"><div class="fnum">12</div><p class="kicker fcap">vertical models</p></div>
-          <div class="figure"><div class="fnum">45–450 t</div><p class="kicker fcap">clamping force</p></div>
           <div class="figure"><div class="fnum">30+</div><p class="kicker fcap">countries served</p></div>
         </div>
-      </section>
-
-      <section class="section">
-        <p class="kicker mb-3">Insert moulding</p>
-        <h2>Metal in, part out, one cycle.</h2>
-        <figure class="blueprint mt-4" style="padding:18px 16px">
-          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <svg viewBox="0 0 640 130" width="100%" role="img" aria-label="Four-station vertical insert moulding process: load insert, index rotary table, inject, unload.">
-            <g fill="none" stroke="var(--color-accent)" stroke-width="1.5">
-              <circle cx="70" cy="65" r="30"/><path d="M70 45v40M50 65h40"/>
-              <line x1="108" y1="65" x2="152" y2="65"/><path d="M146 60l8 5-8 5" stroke-linejoin="round"/>
-              <rect x="160" y="35" width="60" height="60"/><path d="M190 40a25 25 0 1 1-0.1 0" stroke-dasharray="3 4"/>
-              <line x1="236" y1="65" x2="280" y2="65"/><path d="M274 60l8 5-8 5"/>
-              <rect x="300" y="30" width="70" height="70"/><path d="M335 30v-14M328 20h14"/><path d="M320 100v14M410 65h44"/>
-              <path d="M448 60l8 5-8 5"/>
-              <rect x="470" y="40" width="56" height="50"/><path d="M498 40v50" stroke-dasharray="3 4"/><path d="M540 65h40"/>
-            </g>
-            <g font-family="var(--font-mono)" font-size="10" fill="var(--color-text)" letter-spacing="1">
-              <text x="42" y="118">01 LOAD</text><text x="168" y="118">02 INDEX</text><text x="308" y="118">03 INJECT</text><text x="474" y="118">04 UNLOAD</text>
-            </g>
-          </svg>
-          <figcaption>Vertical rotary table process — a line diagram, never a hero photo.</figcaption>
-        </figure>
-        <p class="mt-4 section-lead">On a vertical rotary table the operator or robot loads the insert while the previous part is moulding. The table indexes, the vertical clamp closes over a stable insert, and metal overmoulding happens without the part shifting. <a href="/insert-moulding">See the full process →</a></p>
       </section>
 
       <section class="section">
@@ -163,39 +265,33 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
         <p class="mt-4"><a href="/automation">Automation cells, not add-ons →</a></p>
       </section>
 
-      <section class="section">
-        <p class="kicker mb-3">In production</p>
-        <div class="grid-2">
-          <figure class="blueprint duotone media wide">
-            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-            <img src="/assets/img/machine-05.jpg" alt="KMS vertical injection moulding machine on a production floor" loading="lazy" width="480" height="270">
-          </figure>
-          <figure class="blueprint duotone media wide">
-            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-            <img src="/assets/img/turntable-450.jpg" alt="Vertical rotary table injection moulding machine, 450 t class" loading="lazy" width="480" height="270">
-          </figure>
-        </div>
-      </section>
     </div>
   </main>
 
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-top">
-      <div>
-        <a class="brand" href="/" style="color:#fff">KMS<span style="color:var(--accent)">.</span></a>
-        <p class="mt-2" style="max-width:280px;font-size:13px;color:color-mix(in srgb,#fff 70%,transparent)">Vertical injection moulding machines for insert moulding, insert overmoulding and metal overmoulding — 45 to 450 t.</p>
+      <div class="footer-about">
+        <div class="footer-brands">
+          <a class="brand" href="/"><img src="/assets/img/kms-logo.png" alt="KMS" width="72" height="28"></a>
+          <span class="brands-x" aria-hidden="true"></span>
+          <img class="footer-tayu" src="/assets/img/tayu-logo-full.png" alt="TAYU 大禹塑机" width="167" height="29">
+        </div>
+        <p class="footer-claim"><b>KMS, d.o.o. is the official distributor of TAYU</b> vertical injection moulding machines for Slovenia, Croatia and Bosnia and Herzegovina — sales, application engineering, installation and service.</p>
       </div>
       <div class="footer-cols">
         <div class="footer-col"><h4>Machines</h4><ul>
           <li><a href="/machines">Full range</a></li>
-          <li><a href="/machine/tyw-1200-j">Standard vertical</a></li>
-          <li><a href="/machine/tyu-4500-2r-sf-j">Vertical rotary table</a></li>
-          <li><a href="/machine/ty-2500-3r-3c-sf-j">Multi-colour</a></li>
+          <li><a href="/series/ty">Standard table · TY</a></li>
+          <li><a href="/series/ty-s">Single slide · TY-S</a></li>
+          <li><a href="/series/ty-ds">Double slide · TY-DS</a></li>
+          <li><a href="/series/ty-2r">Rotary table · TY-2R / 3R</a></li>
+          <li><a href="/hybrid">High precision · ET / ETU hybrid</a></li>
         </ul></div>
         <div class="footer-col"><h4>Applications</h4><ul>
           <li><a href="/insert-moulding">Insert &amp; overmoulding</a></li>
           <li><a href="/automation">Automation</a></li>
+          <li><a href="/calculator">Productivity calculator</a></li>
           <li><a href="/service">Service</a></li>
         </ul></div>
         <div class="footer-col"><h4>Company</h4><ul>
@@ -205,14 +301,51 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
         </ul></div>
       </div>
     </div>
+    <div class="footer-contacts">
+        <div class="footer-addr">
+          <h4>Distributor · Slovenia, Croatia, Bosnia and Herzegovina</h4>
+          <p><b>KMS, d.o.o.</b><br>Poslovna cona A 34<br>4208 Šenčur<br>Slovenia</p>
+          <p><a href="tel:+38642516150">T +386 4 25 16 150</a><br><span>F +386 4 25 16 155</span><br><a href="mailto:info@kms.si">info@kms.si</a><br><a href="https://www.kms.si" rel="noopener">www.kms.si</a></p>
+        </div>
+        <div class="footer-addr">
+          <h4>Manufacturer</h4>
+          <p><b>Hangzhou Tayu Machinery Co., Ltd.</b><br>Xianlin Industrial Zone, Yuhang District<br>Hangzhou, Zhejiang Province<br>China</p>
+          <p><a href="tel:+8657188687337">T +86 571 8868 7337</a><br><a href="mailto:hztayu@tayu.cn">hztayu@tayu.cn</a><br><a href="https://www.cntayu.com" rel="noopener" target="_blank">www.cntayu.com</a></p>
+        </div>
+    </div>
     <div class="footer-bottom">
-      <span>© 2026 KMS. Vertical injection moulding machines.</span>
-      <span>Sales: sales@kms.si · +386 (0)1 000 00 00</span>
+      <span>© 2026 KMS, d.o.o. · Official TAYU distributor for Slovenia, Croatia and Bosnia and Herzegovina</span>
+      <span><a href="mailto:info@kms.si">info@kms.si</a> · <a href="tel:+38642516150">+386 4 25 16 150</a></span>
     </div>
   </footer>
+  <!-- SPOTLIGHT — high-precision hybrid electro-hydraulic series pop-up (assets/js/spotlight.js) -->
+  <dialog class="spot" id="spotlight" aria-labelledby="spot-title">
+    <figure class="spot-media"><img src="/assets/img/hybrid/etu-1600.jpg" alt="ETU-1600.2R.SF.J hybrid electro-hydraulic vertical injection moulding machine" width="1000" height="1419"></figure>
+    <div class="spot-body">
+      <p class="spot-kicker"><span class="spot-badge">New</span>Hybrid electro-hydraulic series · ET / ETU</p>
+      <p class="hybrid-desc hybrid-desc-lg">Hydraulic clamping – electric injection</p>
+      <h2 id="spot-title">Built for <span>high-precision</span> parts.</h2>
+      <p class="spot-lead">Servo-electric dosing and injection on a vertical machine — for connectors, sensors and precision overmoulded parts where every shot has to be identical.</p>
+      <ul class="spot-stats">
+        <li><b>0.01 mm</b><span>control precision</span></li>
+        <li><b>±2 %</b><span>repeatability</span></li>
+        <li><b>40–70 %</b><span>less energy</span></li>
+      </ul>
+      <div class="spot-cta">
+        <a class="btn btn-primary" href="/hybrid">Discover the series →</a>
+        <button type="button" class="btn spot-later" data-spot-close>Maybe later</button>
+      </div>
+    </div>
+    <button type="button" class="spot-x" aria-label="Close" data-spot-close>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </dialog>
 </div>
 
 <script src="/assets/js/machines.js" defer></script>
 <script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/techfile.js" defer></script>
+<script src="/assets/js/molding-sim.js" defer></script>
+<script src="/assets/js/spotlight.js" defer></script>
 </body>
 </html>

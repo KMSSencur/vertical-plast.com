@@ -21,22 +21,34 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
 </head>
 <body>
 <div class="page">
+  <div class="topbar">
+    <p class="topbar-claim"><span class="topbar-flag" aria-hidden="true"></span><b>KMS, d.o.o.</b> — official TAYU distributor for Slovenia, Croatia and Bosnia and Herzegovina</p>
+    <p class="topbar-contact"><a href="tel:+38642516150">+386 4 25 16 150</a><a href="mailto:info@kms.si">info@kms.si</a></p>
+  </div>
   <header class="site-header">
-    <a class="brand" href="/">KMS<span>.</span></a>
+    <div class="brands">
+      <a class="brand brand-kms" href="/" title="KMS, d.o.o. — official TAYU distributor for Slovenia, Croatia and Bosnia and Herzegovina"><img src="/assets/img/kms-logo.png" alt="KMS" width="67" height="26"><small>Official TAYU distributor</small></a>
+      <span class="brands-x" aria-hidden="true"></span>
+      <span class="brand-partner"><img src="/assets/img/tayu-logo-full.png" alt="TAYU 大禹塑机" width="157" height="27"></span>
+    </div>
     <nav class="mainnav" aria-label="Primary">
       <a href="/machines">Machines</a>
+      <a href="/hybrid" class="nav-new">High precision</a>
       <a href="/insert-moulding">Insert moulding</a>
       <a href="/automation">Automation</a>
       <a href="/service">Service</a>
       <a href="/company">Company</a>
     </nav>
-    <a class="btn btn-primary header-cta" href="/downloads">Spec sheets</a>
+    <a class="techfile-link" href="/options#file" data-techfile aria-label="Your technical file">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m9 13 2 2 4-4"/></svg>
+      <span class="techfile-label">Technical file</span><span class="techfile-count" data-techfile-count hidden></span>
+    </a>
   </header>
   <main id="main">
     <section class="section" style="padding-top:80px;padding-bottom:80px">
       <p class="kicker mb-3">404</p>
       <h1 class="h-xl">Page not found.</h1>
-      <p class="lead mt-4 section-lead">That page moved or never existed. Head back to the machine range or the finder.</p>
+      <p class="lead mt-4 section-lead">That page moved or never existed. Head back to the machine range.</p>
       <div class="row mt-6">
         <a class="btn btn-primary" href="/">Home</a>
         <a class="btn btn-secondary" href="/machines">Machine range</a>
@@ -44,5 +56,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
     </section>
   </main>
 </div>
+<script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/techfile.js" defer></script>
 </body>
 </html>

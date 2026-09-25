@@ -1,0 +1,66 @@
+/* Homepage spotlight — the high-precision hybrid electro-hydraulic series pop-up (assets/js/spotlight.js).
+   A native <dialog>: opens once per session after a short delay. The permanent entry point is
+   the corner card on the insert band (.hp-teaser in site.css). */
+
+.spot { width: min(980px, calc(100vw - 32px)); max-height: calc(100vh - 32px); padding: 0; border: 0; border-radius: 22px;
+  color: #fff; overflow: hidden; box-shadow: 0 40px 120px color-mix(in srgb, #06122b 55%, transparent);
+  background: radial-gradient(60% 90% at 30% 45%, color-mix(in srgb, var(--color-accent-500) 40%, transparent), transparent 70%),
+              radial-gradient(40% 70% at 100% 100%, color-mix(in srgb, var(--color-accent-2) 25%, transparent), transparent 70%),
+              linear-gradient(160deg, #0b1733 0%, var(--color-accent-900) 55%, #16306e 100%); }
+.spot::backdrop { background: color-mix(in srgb, #06122b 62%, transparent); backdrop-filter: blur(6px); }
+.spot[open] { display: grid; grid-template-columns: .9fr 1.1fr; }
+
+.spot-media { position: relative; margin: 0; min-height: 100%; display: flex; align-items: center; justify-content: center;
+  padding: 32px 8px 32px 32px; overflow: hidden; }
+.spot-media::before { content: ""; position: absolute; inset: 0;
+  background-image: linear-gradient(color-mix(in srgb, #fff 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, #fff 6%, transparent) 1px, transparent 1px);
+  background-size: 36px 36px; -webkit-mask-image: radial-gradient(closest-side, #000, transparent); mask-image: radial-gradient(closest-side, #000, transparent); }
+.spot-media img { position: relative; z-index: 1; width: 100%; max-width: 380px; max-height: 520px; object-fit: contain; object-position: bottom;
+  border-radius: 16px; outline: 1px solid color-mix(in srgb, #fff 18%, transparent); outline-offset: -1px;
+  box-shadow: 0 24px 60px color-mix(in srgb, #000 40%, transparent); }
+
+.spot-body { padding: 44px 44px 36px 20px; display: flex; flex-direction: column; justify-content: center; }
+.spot-kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; margin: 0;
+  color: color-mix(in srgb, #fff 75%, transparent); }
+.spot-badge { display: inline-block; padding: 4px 10px; margin-right: 8px; border-radius: 999px; color: #fff; letter-spacing: .1em;
+  background: linear-gradient(135deg, #ff7a3d, var(--accent)); box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 45%, transparent); }
+.spot h2 { font-size: 52px; line-height: .96; letter-spacing: -.02em; margin: 16px 0 0; color: #fff; }
+.spot h2 span { background: linear-gradient(100deg, #7fb2ff, #3fe0d0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.spot-lead { font-size: 16px; line-height: 1.55; margin: 16px 0 0; color: color-mix(in srgb, #fff 80%, transparent); max-width: 460px; }
+.spot-stats { list-style: none; padding: 0; margin: 24px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.spot-stats li { padding: 12px 12px 10px; border-radius: 12px; background: color-mix(in srgb, #fff 7%, transparent);
+  border: 1px solid color-mix(in srgb, #fff 14%, transparent); }
+.spot-stats b { display: block; font-family: var(--font-heading); font-size: 28px; line-height: 1; white-space: nowrap; }
+.spot-stats span { display: block; margin-top: 6px; font-size: 11.5px; color: color-mix(in srgb, #fff 65%, transparent); }
+.spot-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+.spot-cta .btn { min-height: 44px; font-size: 15px; padding-inline: 18px; }
+.spot-later { color: color-mix(in srgb, #fff 80%, transparent); border-color: color-mix(in srgb, #fff 30%, transparent); background: transparent; }
+.spot-later:hover { background: color-mix(in srgb, #fff 10%, transparent); }
+.spot-x { position: absolute; top: 14px; right: 14px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; color: #fff;
+  border: 1px solid color-mix(in srgb, #fff 25%, transparent); background: color-mix(in srgb, #fff 8%, transparent); }
+.spot-x:hover { background: color-mix(in srgb, #fff 18%, transparent); }
+
+/* entrance: panel rises, content staggers in */
+@media (prefers-reduced-motion: no-preference) {
+  .spot[open] { animation: spot-in 520ms cubic-bezier(.2,.8,.2,1); }
+  .spot[open]::backdrop { animation: spot-fade 400ms ease; }
+  .spot[open] .spot-media img { animation: spot-rise 900ms 120ms cubic-bezier(.2,.8,.2,1) both; }
+  .spot[open] .spot-body > * { animation: spot-rise 600ms cubic-bezier(.2,.8,.2,1) both; }
+  .spot[open] .spot-body > :nth-child(2) { animation-delay: 80ms; }
+  .spot[open] .spot-body > :nth-child(3) { animation-delay: 160ms; }
+  .spot[open] .spot-body > :nth-child(4) { animation-delay: 240ms; }
+  .spot[open] .spot-body > :nth-child(5) { animation-delay: 320ms; }
+}
+@keyframes spot-in { from { opacity: 0; transform: translateY(24px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes spot-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes spot-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 760px) {
+  .spot[open] { grid-template-columns: 1fr; overflow-y: auto; }
+  .spot-media { padding: 20px 20px 0; max-height: 260px; }
+  .spot-media img { max-height: 220px; }
+  .spot-body { padding: 18px 20px 24px; }
+  .spot h2 { font-size: 36px; }
+  .spot-stats b { font-size: 22px; }
+}

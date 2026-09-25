@@ -1,0 +1,119 @@
+/* Vertical moulding table concepts — homepage band (assets/js/molding-sim.js).
+   Each card carries its table-type colour (--tc, set inline from --t1…--t5): top stripe,
+   kicker, series link and the machine table in the drawing. Orange marks melt / active mould. */
+
+.vma {
+  border-top: 1px solid var(--color-divider);
+  /* diagram colours, mapped onto the Industry tokens */
+  --vma-paper: #ffffff;
+  --vma-line: #c7d3e6;
+  --vma-muted: color-mix(in srgb, var(--color-text) 55%, transparent);
+  --vma-frame: #e6edf8;
+  --vma-frame-s: #8fa3c4;
+  --vma-steel: #34507f;
+  --vma-steel-2: #7f95ba;
+  --vma-screw: var(--color-accent-800);
+  --vma-table: color-mix(in srgb, var(--tc, var(--color-accent)) 16%, #fff);
+  --vma-table-s: var(--tc, var(--color-accent));
+  --vma-insert: var(--color-accent-500);
+  --vma-part: #1f2a44;
+  --vma-melt: var(--accent);
+  --vma-melt-d: var(--accent-700);
+}
+
+.vma-head { display: flex; gap: 24px; align-items: center; justify-content: flex-end; flex-wrap: wrap; margin-bottom: 18px; }
+.vma-head .section-lead { max-width: 640px; margin: 0; }
+.vma-head h2 { margin-top: var(--space-3); }
+
+/* controls — only shown once the script is running */
+.vma-ctrl { display: none; gap: 8px; align-items: center; flex-wrap: wrap; }
+.vma.is-live .vma-ctrl { display: flex; }
+.vma-ctrl .chip { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0; }
+.vma-ctrl .btn { min-height: 40px; }
+
+/* all five machines on one line: one column each, rows shared via subgrid so the
+   front views, top views and step lists line up across the whole row */
+.vma-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(196px, 1fr));
+  grid-template-rows: repeat(4, auto);
+  column-gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 8px 10px 22px;   /* room for the card shadows inside the scroller */
+  margin: -8px -10px 0;
+}
+.vma-card {
+  grid-row: span 4;
+  display: grid;
+  grid-template-rows: subgrid;
+  row-gap: 14px;
+  padding: 22px 14px 14px;
+  scroll-snap-align: start;
+  min-width: 0;
+  overflow: hidden;
+  transition: transform 300ms cubic-bezier(.2,.7,.2,1), box-shadow 300ms ease;
+}
+.vma-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: var(--tc); }
+.vma-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.vma-card > div:first-of-type .kicker { color: var(--tc); font-weight: 600; }
+.vma-card h3 { font-size: 22px; line-height: 1.05; margin: 8px 0 0; }
+.vma-card .vma-desc { font-size: 13px; line-height: 1.5; margin: 0; color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+
+.vma-view { display: flex; flex-direction: column; gap: 6px; align-self: start; }
+.vma-view .kicker { line-height: 1.3; }
+.vma-view svg { display: block; width: 100%; height: auto; }
+.vma-view [data-front], .vma-view [data-top] { border-radius: var(--radius-md); padding: 8px 6px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--tc) 7%, #fff), #fff); border: 1px solid color-mix(in srgb, var(--tc) 18%, transparent); }
+
+.vma-steps { list-style: none; margin: 0; padding: 0; counter-reset: s; align-self: start;
+  border-top: 1px solid var(--color-divider); padding-top: 8px; }
+.vma-steps li { counter-increment: s; display: grid; grid-template-columns: 20px 1fr auto; gap: 6px; align-items: baseline;
+  font-size: 12.5px; line-height: 1.35; padding: 4px 6px; border-left: 2px solid transparent;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent); }
+.vma-steps li::before { content: counter(s, decimal-leading-zero); font-family: var(--font-mono); font-size: 10px;
+  color: color-mix(in srgb, var(--color-text) 40%, transparent); }
+.vma-steps .t { font-family: var(--font-mono); font-size: 10.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.vma-steps li.on { color: var(--color-text); border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, transparent); }
+.vma-steps li.on::before { color: var(--accent-ink); }
+
+.vma-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 18px; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.04em; color: color-mix(in srgb, var(--color-text) 60%, transparent); }
+.vma-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.vma-legend i { display: inline-block; width: 11px; height: 11px; }
+.vma-legend .sw-insert { background: var(--vma-insert); }
+.vma-legend .sw-part { background: var(--vma-part); }
+.vma-legend .sw-melt { background: var(--vma-melt); }
+.vma-legend .sw-axis { border: 1.5px dashed var(--vma-melt-d); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .vma-steps li { transition: background 140ms ease, color 140ms ease, border-color 140ms ease; }
+}
+
+/* model named under each table concept (technical data lives on /machine/<slug>) */
+.vma-model { align-self: start; padding: 10px 12px; border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--tc) 9%, #fff); }
+.vma-model .kicker { color: color-mix(in srgb, var(--tc) 70%, var(--color-text)); }
+.vma-model .kicker { margin: 0 0 4px; }
+.vma-model-name { display: inline-block; font-family: var(--font-display, inherit); font-size: 19px; font-weight: 600; letter-spacing: .01em; white-space: nowrap; color: var(--color-text); text-decoration: none; }
+a.vma-model-name:hover { color: var(--tc); }
+
+/* bracket joining Type 2 (single slide) and Type 4 (rotary) → productivity calculator */
+.vma-bridge { grid-column: 2 / 5; grid-row: 5; position: relative; display: flex; justify-content: center; padding-top: 26px; min-height: 96px; }
+.vma-bridge-line { position: absolute; top: 0; height: 58px; left: calc((100% - 32px) / 6); right: calc((100% - 32px) / 6);
+  border: 3px solid transparent; border-top: 0; border-radius: 0 0 18px 18px;
+  background: linear-gradient(90deg, var(--t2), var(--t3), var(--t4)) border-box;
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) padding-box exclude, linear-gradient(#000 0 0); }
+.vma-bridge-btn { position: relative; z-index: 1; align-self: flex-start; display: inline-flex; align-items: center; gap: 14px;
+  padding: 12px 20px 12px 12px; border-radius: 999px; text-decoration: none; color: #fff;
+  background: linear-gradient(135deg, #0b1733, var(--color-accent-900) 55%, #16306e);
+  box-shadow: 0 0 0 6px var(--color-bg), 0 14px 34px color-mix(in srgb, #06122b 30%, transparent);
+  transition: transform 250ms cubic-bezier(.2,.7,.2,1), box-shadow 250ms ease; }
+.vma-bridge-btn:hover { transform: translateY(-2px); }
+.vma-bridge-ico { width: 44px; height: 44px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex: none;
+  background: linear-gradient(135deg, var(--t2), var(--t4)); }
+.vma-bridge-text b { display: block; font-family: var(--font-heading); font-size: 20px; line-height: 1.1; }
+.vma-bridge-text small { display: block; margin-top: 2px; font-size: 12.5px; color: color-mix(in srgb, #fff 72%, transparent); white-space: nowrap; }
+.vma-bridge-arrow { font-family: var(--font-heading); font-size: 22px; color: #7fb2ff; }

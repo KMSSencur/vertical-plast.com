@@ -23,19 +23,19 @@
       application: "General insert & metal overmoulding", insert: "Manual / robot",
       img: "machine-05.jpg", rank: 1, insertFit: ["metal","cable","none"], weightFit: ["30to120","120plus"], volumeFit: ["low","series"] },
 
-    { slug: "tyu-1600s-j",       model: "TYU-1600S.J",        tons: 120, table: "Single sliding table", tableKey: "slide", colors: 1,
+    { slug: "tyu-1600s-j",       model: "TYU-1600S.J",        tons: 160, table: "Single sliding table", tableKey: "slide", colors: 1,
       application: "Insert moulding with large-part loading", insert: "Manual (slide)",
       img: "machine-06.jpg", rank: 3, insertFit: ["metal","cable"], weightFit: ["30to120","120plus"], volumeFit: ["low","series"] },
 
-    { slug: "et-350-2r-sf-j",    model: "ET-350.2R.SF.J",     tons: 160, table: "Rotary table, 2-station, servo-hybrid", tableKey: "rotary", colors: 1,
-      application: "Servo-hybrid precision insert moulding", insert: "6-axis robot",
+    { slug: "et-350-2r-sf-j",    model: "ET-350.2R.SF.J",     tons: 160, table: "Rotary table, 2-station, hybrid electro-hydraulic", tableKey: "rotary", colors: 1,
+      application: "Hybrid electro-hydraulic precision insert moulding", insert: "6-axis robot",
       img: "machine-07.jpg", rank: 2, insertFit: ["metal","cable"], weightFit: ["30to120","120plus"], volumeFit: ["series","high"] },
 
     { slug: "ty-1600-2c-zt-j",   model: "TY-1600.2C.ZT.J",    tons: 160, table: "Turntable, 2-station", tableKey: "turntable", colors: 2,
       application: "Two-component / two-shot moulding", insert: "Robot",
       img: "machine-08.jpg", rank: 4, insertFit: ["none","metal"], weightFit: ["30to120","120plus"], volumeFit: ["series","high"] },
 
-    { slug: "ty-2000-2r-2c-j",   model: "TY-2000.2R.2C.J",    tons: 160, table: "Rotary table, 2-station, two-colour", tableKey: "rotary", colors: 2,
+    { slug: "ty-2000-2r-2c-j",   model: "TY-2000.2R.2C.J",    tons: 200, table: "Rotary table, 2-station, two-colour", tableKey: "rotary", colors: 2,
       application: "Eyewear two-colour moulding", insert: "Robot",
       img: "turntable-450.jpg", rank: 10, insertFit: ["none"], weightFit: ["30to120","120plus"], volumeFit: ["series","high"] },
 
