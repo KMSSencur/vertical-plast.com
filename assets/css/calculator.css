@@ -69,3 +69,8 @@
   .calc-chart { padding: 10px; }
   .calc-row3 { grid-template-columns: 1fr 1fr; }
 }
+
+/* table-type icon at the right of the machine headings */
+.calc-type-ico { margin-left: auto; display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 56px; flex: none;
+  border-radius: 10px; background: color-mix(in srgb, var(--ico, #1f5fd6) 8%, #fff); border: 1px solid color-mix(in srgb, var(--ico, #1f5fd6) 25%, transparent); }
+.calc-type-ico svg { display: block; width: 60px; height: 45px; }

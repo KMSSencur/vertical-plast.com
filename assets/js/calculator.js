@@ -61,6 +61,45 @@
     };
   }
 
+  /* ── table-type icons (top view, type colour) — form headings and report ── */
+  var TYPE_COLOR = { standard: "#2f6bff", slide: "#00a3b4", ds: "#16a35f", "2r": "#7b4dff", "3r": "#f09a00" };
+  function typeIcon(key, px) {
+    var c = TYPE_COLOR[key] || "#1f5fd6", w = px || 64, h = Math.round(w * 0.75), s = [];
+    var mould = function (x, y, sz) { s.push('<rect x="' + x + '" y="' + y + '" width="' + sz + '" height="' + sz + '" rx="2" fill="' + c + '" fill-opacity=".22" stroke="' + c + '" stroke-width="2"/>'); };
+    if (key === "standard") {
+      s.push('<rect x="8" y="6" width="48" height="36" rx="4" fill="none" stroke="' + c + '" stroke-width="2"/>');
+      [[14, 12], [50, 12], [14, 36], [50, 36]].forEach(function (p) { s.push('<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2.6" fill="' + c + '"/>'); });
+      mould(23, 15, 18);
+    } else if (key === "slide") {
+      s.push('<rect x="12" y="3" width="40" height="22" rx="3" fill="none" stroke="' + c + '" stroke-width="2" stroke-dasharray="4 3"/>');
+      s.push('<path d="M20 20v24M44 20v24" stroke="' + c + '" stroke-width="2"/>');
+      mould(23, 26, 18);
+      s.push('<path d="M32 8v10m-4-4 4 4 4-4" fill="none" stroke="' + c + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>');
+    } else if (key === "ds") {
+      s.push('<rect x="2" y="17" width="60" height="16" rx="3" fill="none" stroke="' + c + '" stroke-width="2"/>');
+      s.push('<rect x="21" y="6" width="22" height="36" rx="3" fill="none" stroke="' + c + '" stroke-width="2" stroke-dasharray="4 3"/>');
+      mould(6, 16, 14); mould(25, 16, 14); s.push('<rect x="44" y="16" width="14" height="14" rx="2" fill="none" stroke="' + c + '" stroke-width="2" stroke-dasharray="3 2"/>');
+    } else {
+      var n = key === "3r" ? 3 : 2, R0 = 17, sz = n === 3 ? 11 : 13;
+      s.push('<circle cx="32" cy="24" r="21" fill="' + c + '" fill-opacity=".07" stroke="' + c + '" stroke-width="2"/>');
+      s.push('<circle cx="32" cy="24" r="2.6" fill="' + c + '"/>');
+      for (var i = 0; i < n; i++) {
+        var a = -Math.PI / 2 + i * 2 * Math.PI / n, x = 32 + Math.cos(a) * (R0 - sz / 2 - 1), y = 24 + Math.sin(a) * (R0 - sz / 2 - 1);
+        mould((x - sz / 2).toFixed(1), (y - sz / 2).toFixed(1), sz);
+      }
+    }
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48" width="' + w + '" height="' + h + '">' + s.join("") + "</svg>";
+  }
+  function paintIcons() {
+    var t1 = form.elements.type1.value, t2 = form.elements.type2.value;
+    [["1", t1, selText("type1")], ["2", t2, "TAYU " + selText("type2")]].forEach(function (d) {
+      var el = app.querySelector('[data-type-ico="' + d[0] + '"]');
+      if (!el) return;
+      el.innerHTML = typeIcon(d[1], 64); el.title = d[2];
+      el.style.setProperty("--ico", TYPE_COLOR[d[1]]);
+    });
+  }
+
   /* ── chart (SVG string, viewBox 1000 × 480) ── */
   function chartSVG(r) {
     var v = r.v, W = 600, T = 3 * Math.max(r.c1, r.c2), s = [];
@@ -153,6 +192,7 @@
     var t = '<thead><tr><th scope="col"></th><th scope="col"><span class="calc-dot m1"></span>Machine 1<small>' + esc(v.name1) + '</small></th><th scope="col"><span class="calc-dot m2"></span>Machine 2<small>TAYU ' + esc(v.name2) + "</small></th></tr></thead><tbody>";
     rows(r).forEach(function (row) { t += "<tr><th scope=\"row\">" + row[0] + "</th><td>" + row[1] + "</td><td>" + row[2] + "</td></tr>"; });
     out.table.innerHTML = t + "</tbody>";
+    paintIcons();
   }
 
   /* ── presets + inputs ── */
@@ -199,7 +239,9 @@
     var svg = chartSVG(r);
     return Promise.all([
       loadImg("/assets/img/kms-logo.png"), loadImg("/assets/img/tayu-logo-full.png"),
-      loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg))
+      loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg)),
+      loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(typeIcon(form.elements.type1.value, 128))),
+      loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(typeIcon(form.elements.type2.value, 128)))
     ]).then(function (imgs) {
       var W = 1240, H = 1754, M = 80, v = r.v;
       var cv = document.createElement("canvas"); cv.width = W; cv.height = H;
@@ -234,12 +276,13 @@
       var y = 440 + (W - 2 * M) * 480 / 1000 + 40;
       // results table
       x.font = "bold 20px Arial"; x.fillStyle = "#13213f"; x.fillText("Results", M, y); y += 14;
-      var cx = [M, M + 420, M + 760];
+      var cx = [M, M + 420, M + 760], ix = 64, iy = 48;
+      x.drawImage(imgs[3], cx[1], y + 4, ix, iy); x.drawImage(imgs[4], cx[2], y + 4, ix, iy);
       x.font = "bold 17px Arial"; x.fillStyle = "#13213f";
-      x.fillText("Machine 1", cx[1], y + 22); x.fillStyle = "#1f5fd6"; x.fillText("Machine 2", cx[2], y + 22);
+      x.fillText("Machine 1", cx[1] + ix + 12, y + 26); x.fillStyle = "#1f5fd6"; x.fillText("Machine 2", cx[2] + ix + 12, y + 26);
       x.font = "14px Arial"; x.fillStyle = "#5b6474";
-      x.fillText(v.name1, cx[1], y + 42); x.fillText("TAYU " + v.name2, cx[2], y + 42);
-      y += 56;
+      x.fillText(v.name1, cx[1] + ix + 12, y + 46); x.fillText("TAYU " + v.name2, cx[2] + ix + 12, y + 46);
+      y += 64;
       rows(r).forEach(function (row, i) {
         if (i % 2 === 0) { x.fillStyle = "#f4f7fc"; x.fillRect(M, y, W - 2 * M, 34); }
         x.fillStyle = "#13213f"; x.font = "17px Arial"; x.fillText(row[0], cx[0] + 12, y + 23);
@@ -278,11 +321,6 @@
   function download(href, name) { var a = document.createElement("a"); a.href = href; a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
   function say(m) { out.status.textContent = m; }
 
-  app.querySelector("[data-calc-png]").addEventListener("click", function () {
-    say("Preparing image…");
-    buildReport(last).then(function (cv) { download(cv.toDataURL("image/png"), fileName("png")); say(""); })
-      .catch(function (e) { if (window.console) console.error(e); say("The image could not be created in this browser."); });
-  });
   var jspdfLoading = null;
   function loadJsPDF() {
     if (window.jspdf) return Promise.resolve(window.jspdf);

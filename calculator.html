@@ -121,7 +121,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
           </fieldset>
 
           <fieldset class="calc-block calc-m1">
-            <legend><span class="calc-dot"></span>Machine 1 — single table</legend>
+            <legend><span class="calc-dot"></span>Machine 1 — single table<span class="calc-type-ico" data-type-ico="1" aria-hidden="true"></span></legend>
             <label class="calc-field"><span class="calc-label">Table type</span>
               <select class="input" name="type1">
                 <option value="standard" data-travel="0">Standard table (TY)</option>
@@ -133,7 +133,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
           </fieldset>
 
           <fieldset class="calc-block calc-m2">
-            <legend><span class="calc-dot"></span>Machine 2 — TAYU rotary table</legend>
+            <legend><span class="calc-dot"></span>Machine 2 — TAYU rotary table<span class="calc-type-ico" data-type-ico="2" aria-hidden="true"></span></legend>
             <label class="calc-field"><span class="calc-label">Table type</span>
               <select class="input" name="type2">
                 <option value="2r" data-index="3">Rotary table, 2 stations (TY-2R)</option>
@@ -167,9 +167,9 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
           <div class="calc-table-wrap"><table class="calc-table" data-calc-table></table></div>
           <p class="calc-assume">Machine 2 assumption: unloading and loading run in parallel with moulding at the loading station. If handling takes longer than moulding, handling sets the cycle.</p>
           <div class="calc-actions">
-            <button type="button" class="btn btn-primary" data-calc-pdf>Download result (PDF)</button>
-            <button type="button" class="btn btn-secondary" data-calc-png>Download as image (PNG)</button>
-            <a class="btn btn-secondary" href="/options?series=ty-2r">Check available options</a>
+            <button type="button" class="btn btn-primary" data-calc-pdf>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6M9 14l3 3 3-3"/></svg>
+              Download result (PDF)</button>
           </div>
           <p class="calc-status" data-calc-status role="status"></p>
         </div>
@@ -179,6 +179,12 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
     <section class="section calc-legal" id="disclaimer">
       <p class="kicker mb-3">Legal notice</p>
       <p>This calculator provides an indicative estimate for information purposes only. The results are calculated solely from the values entered and from simplified assumptions: a constant cycle, 100 % machine availability and no interruptions for mould changes, set-up, maintenance, material supply, quality checks, breaks or faults. The results do not constitute an offer, a technical specification, a guaranteed performance, a warranty or any other binding commitment by KMS, d.o.o. or Hangzhou Tayu Machinery Co., Ltd. Actual cycle times and output depend on the part and insert design, mould, material, automation, operator and operating conditions, and may differ significantly. KMS, d.o.o. and Hangzhou Tayu Machinery Co., Ltd. accept no liability for any direct or indirect loss or damage arising from the use of, or reliance on, these results. Binding figures are given only in a written quotation from KMS, d.o.o.</p>
+    </section>
+
+    <section class="section" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <h2 style="font-size:24px;margin:0">Rotary table it is? Specify the machine.</h2>
+      <a class="btn btn-primary" style="margin-left:auto" href="/options?series=ty-2r">Check available options</a>
+      <a class="btn btn-secondary" href="/series/ty-2r">TY-2R series</a>
     </section>
   </main>
 
