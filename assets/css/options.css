@@ -140,3 +140,8 @@
 .opt-other-hint { display: block; margin-top: 2px; font-size: 13px; color: color-mix(in srgb, var(--color-text) 62%, transparent); }
 .opt-other textarea.input { min-height: 96px; background: #fff; }
 .opt-file-list li.opt-custom-item::before { content: "✎"; color: #ffb08c; }
+
+/* multi-row quantity (core pulls: upper / lower plate) */
+.opt-qty-multi { flex-direction: column; align-items: flex-start; gap: 6px; }
+.opt-qty-rowline { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.opt-qty-rowline .opt-qty-label { min-width: 92px; }

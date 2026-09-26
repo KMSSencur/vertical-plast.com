@@ -59,7 +59,18 @@
     var customEl = app.querySelector("[data-opt-custom]");
 
     // options that need a quantity (e.g. hot-runner zones): s.qty = { optionId: "8" }
-    function qtyOf(id) { return (s.qty && s.qty[id]) || ""; }
+    function qtyRaw(id) { return s.qty && s.qty[id]; }
+    function qtyOf(id) {          // "" when nothing chosen, otherwise a non-empty summary
+      var v = qtyRaw(id);
+      if (!v) return "";
+      if (typeof v === "string") return v;
+      return Object.keys(v).filter(function (k) { return v[k]; }).map(function (k) { return k + ":" + v[k]; }).join(",");
+    }
+    function isPicked(id, c) {
+      var v = qtyRaw(id), row = c.getAttribute("data-row");
+      if (!v) return false;
+      return row ? typeof v === "object" && v[row] === c.getAttribute("data-qty") : v === c.getAttribute("data-qty");
+    }
     function needsQty() {
       var missing = null;
       Array.prototype.forEach.call(choiceWraps, function (w) {
@@ -71,8 +82,11 @@
     function labelFor(b) {
       var q = qtyOf(b.value);
       if (!q) return b.getAttribute("data-label");
-      var btn = app.querySelector('[data-choice-for="' + b.value + '"] [data-qty="' + q + '"]');
-      return b.getAttribute("data-label") + " — " + (btn ? btn.textContent.trim() : q);
+      var w = app.querySelector('[data-choice-for="' + b.value + '"]'), parts = [];
+      if (w) Array.prototype.forEach.call(w.querySelectorAll("[data-qty]"), function (c) {
+        if (isPicked(b.value, c)) parts.push((c.getAttribute("data-row-label") ? c.getAttribute("data-row-label") + " " : "") + c.textContent.trim());
+      });
+      return b.getAttribute("data-label") + " — " + (parts.length ? parts.join(", ") : q);
     }
 
     // ?series=ty-s preselects a series (from the series pages)
@@ -124,7 +138,7 @@
       }
       Array.prototype.forEach.call(choiceWraps, function (w) {
         var id = w.getAttribute("data-choice-for"), q = qtyOf(id), on = chosen.indexOf(id) !== -1;
-        Array.prototype.forEach.call(w.querySelectorAll("[data-qty]"), function (c) { c.setAttribute("aria-checked", String(on && c.getAttribute("data-qty") === q)); });
+        Array.prototype.forEach.call(w.querySelectorAll("[data-qty]"), function (c) { c.setAttribute("aria-checked", String(on && isPicked(id, c))); });
         w.querySelector("[data-qty-hint]").hidden = !(on && !q);
         w.classList.toggle("is-on", on);
       });
@@ -178,7 +192,13 @@
       var id = w.getAttribute("data-choice-for");
       Array.prototype.forEach.call(w.querySelectorAll("[data-qty]"), function (c) {
         c.addEventListener("click", function () {
-          s.qty = s.qty || {}; s.qty[id] = c.getAttribute("data-qty");
+          s.qty = s.qty || {};
+          var row = c.getAttribute("data-row");
+          if (row) {                       // multi-row: click toggles this row's value
+            var v = typeof s.qty[id] === "object" && s.qty[id] ? s.qty[id] : {};
+            if (v[row] === c.getAttribute("data-qty")) delete v[row]; else v[row] = c.getAttribute("data-qty");
+            s.qty[id] = v;
+          } else s.qty[id] = c.getAttribute("data-qty");
           if (opts(s).indexOf(id) === -1) s.options = opts(s).concat(id);
           save(s); paint();
         });
