@@ -131,3 +131,12 @@
 .opt-qty-hint { font-size: 12.5px; font-weight: 600; color: var(--accent-700); }
 .opt-qty-hint[hidden] { display: none; }
 .opt-file-list li.is-warn { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+
+/* other options: free-text demand */
+.opt-other { margin-top: 18px; padding: 16px; border-radius: var(--radius-md); background: linear-gradient(135deg, #fff7ef, #fff); border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent); }
+.opt-other legend { float: left; width: 100%; margin-bottom: 8px; color: var(--accent-700); }
+.opt-other-box { display: block; clear: both; margin-bottom: 8px; }
+.opt-other-q { display: block; font-family: var(--font-heading); font-weight: 600; font-size: 20px; line-height: 1.15; }
+.opt-other-hint { display: block; margin-top: 2px; font-size: 13px; color: color-mix(in srgb, var(--color-text) 62%, transparent); }
+.opt-other textarea.input { min-height: 96px; background: #fff; }
+.opt-file-list li.opt-custom-item::before { content: "✎"; color: #ffb08c; }

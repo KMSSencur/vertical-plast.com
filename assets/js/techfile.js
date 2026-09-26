@@ -15,11 +15,12 @@
   }
   function save(s) { s.updated = new Date().toISOString(); try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
   function opts(s) { return Array.isArray(s.options) ? s.options : []; }
-  function needsMachine(s) { return opts(s).length > 0 && !s.model; }
+  function custom(s) { return typeof s.custom === "string" ? s.custom.trim() : ""; }
+  function needsMachine(s) { return (opts(s).length > 0 || !!custom(s)) && !s.model; }
 
   /* ── header link + homepage teaser (all pages) ── */
   function paintGlobal(s) {
-    var n = opts(s).length + (s.model ? 1 : 0);
+    var n = opts(s).length + (s.model ? 1 : 0) + (custom(s) ? 1 : 0);
     Array.prototype.forEach.call(document.querySelectorAll("[data-techfile-count]"), function (el) {
       el.textContent = n ? String(n) : ""; el.hidden = !n;
     });
@@ -55,6 +56,7 @@
     var form = app.querySelector("[data-opt-form]");
     var status = app.querySelector("[data-opt-status]");
     var choiceWraps = app.querySelectorAll("[data-choice-for]");
+    var customEl = app.querySelector("[data-opt-custom]");
 
     // options that need a quantity (e.g. hot-runner zones): s.qty = { optionId: "8" }
     function qtyOf(id) { return (s.qty && s.qty[id]) || ""; }
@@ -114,7 +116,7 @@
       fileMachine.appendChild(h);
 
       fileList.innerHTML = "";
-      if (!chosen.length) {
+      if (!chosen.length && !custom(s)) {
         var li0 = document.createElement("li"); li0.className = "opt-empty"; li0.textContent = "No options selected yet.";
         fileList.appendChild(li0);
       }
@@ -133,6 +135,15 @@
         x.addEventListener("click", function () { s.options = opts(s).filter(function (v) { return v !== b.value; }); if (s.qty) delete s.qty[b.value]; save(s); paint(); });
         li.appendChild(t); li.appendChild(x); fileList.appendChild(li);
       });
+      if (custom(s)) {
+        var lc = document.createElement("li"); lc.className = "opt-custom-item";
+        var tc = document.createElement("span"); var txt = custom(s);
+        tc.textContent = "Other: " + (txt.length > 110 ? txt.slice(0, 110) + "…" : txt);
+        var xc = document.createElement("button"); xc.type = "button"; xc.className = "opt-remove"; xc.setAttribute("aria-label", "Remove other option"); xc.textContent = "×";
+        xc.addEventListener("click", function () { s.custom = ""; if (customEl) customEl.value = ""; save(s); paint(); });
+        lc.appendChild(tc); lc.appendChild(xc); fileList.appendChild(lc);
+      }
+      if (customEl && document.activeElement !== customEl) customEl.value = s.custom || "";
       reminder.hidden = !needsMachine(s);
       paintGlobal(s);
     }
@@ -158,6 +169,7 @@
         s.options = list; save(s); paint();
       });
     });
+    if (customEl) customEl.addEventListener("input", function () { s.custom = customEl.value; save(s); paint(); });
     // picking a quantity also ticks its option
     Array.prototype.forEach.call(choiceWraps, function (w) {
       var id = w.getAttribute("data-choice-for");
@@ -185,6 +197,7 @@
         "## Optional equipment"];
       var chosen = opts(s);
       Array.prototype.forEach.call(boxes, function (b) { var on = chosen.indexOf(b.value) !== -1; lines.push("- [" + (on ? "x" : " ") + "] " + (on ? labelFor(b) : b.getAttribute("data-label"))); });
+      if (custom(s)) lines.push("", "## Other options requested", custom(s));
       lines.push("", "## Contact");
       [["Name", c.name], ["Company", c.company], ["Email", c.email], ["Phone", c.phone], ["Country", c.country]].forEach(function (p) { if (p[1]) lines.push("- " + p[0] + ": " + p[1]); });
       if (c.message) lines.push("", "## Part / application", c.message);
