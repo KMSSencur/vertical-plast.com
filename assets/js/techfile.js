@@ -70,7 +70,9 @@
     }
     function labelFor(b) {
       var q = qtyOf(b.value);
-      return b.getAttribute("data-label") + (q ? " — " + q + " ×" : "");
+      if (!q) return b.getAttribute("data-label");
+      var btn = app.querySelector('[data-choice-for="' + b.value + '"] [data-qty="' + q + '"]');
+      return b.getAttribute("data-label") + " — " + (btn ? btn.textContent.trim() : q);
     }
 
     // ?series=ty-s preselects a series (from the series pages)
@@ -130,7 +132,8 @@
         if (chosen.indexOf(b.value) === -1) return;
         var li = document.createElement("li");
         var t = document.createElement("span"); t.textContent = labelFor(b);
-        if (qtyOf(b.value) === "" && app.querySelector('[data-choice-for="' + b.value + '"]')) { t.textContent += " — how many?"; li.className = "is-warn"; }
+        var cw = app.querySelector('[data-choice-for="' + b.value + '"]');
+        if (qtyOf(b.value) === "" && cw) { t.textContent += " — " + cw.querySelector("[data-qty-hint]").textContent.toLowerCase(); li.className = "is-warn"; }
         var x = document.createElement("button"); x.type = "button"; x.className = "opt-remove"; x.setAttribute("aria-label", "Remove " + b.getAttribute("data-label")); x.textContent = "×";
         x.addEventListener("click", function () { s.options = opts(s).filter(function (v) { return v !== b.value; }); if (s.qty) delete s.qty[b.value]; save(s); paint(); });
         li.appendChild(t); li.appendChild(x); fileList.appendChild(li);
@@ -217,7 +220,7 @@
       }
       var missing = needsQty();
       if (missing) {
-        say("Choose how many hot-runner controllers you need.", "warn");
+        say(missing.getAttribute("data-choice-msg") || "Choose a quantity.", "warn");
         missing.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
       }

@@ -127,7 +127,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
           </div>
 
           <div class="opt-step" id="step-options">
-            <h2><span class="opt-num">2</span>Choose options <small class="opt-count" data-opt-count>0 of 16 selected</small></h2>
+            <h2><span class="opt-num">2</span>Choose options <small class="opt-count" data-opt-count>0 of 18 selected</small></h2>
           <fieldset class="opt-group">
             <legend>Mould functions</legend>
             <label class="opt-item"><input type="checkbox" name="option" value="hyd-cores" data-label="Hydraulic core-pull control on the upper and both lower platens (to EUROMAP 13)"><span class="opt-box" aria-hidden="true"></span><span class="opt-text">Hydraulic core-pull control on the upper and both lower platens <small>to EUROMAP 13</small></span></label>
@@ -138,7 +138,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
           <fieldset class="opt-group">
             <legend>Temperature</legend>
             <label class="opt-item"><input type="checkbox" name="option" value="mould-temp" data-label="Interfaces for mould wall temperature measurement"><span class="opt-box" aria-hidden="true"></span><span class="opt-text">Interfaces for mould wall temperature measurement</span></label>
-            <div class="opt-item-wrap" data-choice-for="hot-runner">
+            <div class="opt-item-wrap" data-choice-for="hot-runner" data-choice-msg="Choose how many hot-runner controllers you need.">
               <label class="opt-item"><input type="checkbox" name="option" value="hot-runner" data-label="Temperature controllers for the mould hot-runner channels"><span class="opt-box" aria-hidden="true"></span><span class="opt-text">Temperature controllers for the mould hot-runner channels</span></label>
               <div class="opt-qty" role="radiogroup" aria-label="Temperature controllers for the mould hot-runner channels — How many?"><span class="opt-qty-label">How many?</span><button type="button" class="opt-qty-btn" role="radio" aria-checked="false" data-qty="4">4 ×</button><button type="button" class="opt-qty-btn" role="radio" aria-checked="false" data-qty="8">8 ×</button><button type="button" class="opt-qty-btn" role="radio" aria-checked="false" data-qty="12">12 ×</button><button type="button" class="opt-qty-btn" role="radio" aria-checked="false" data-qty="16">16 ×</button><button type="button" class="opt-qty-btn" role="radio" aria-checked="false" data-qty="24">24 ×</button><span class="opt-qty-hint" data-qty-hint hidden>Choose how many</span></div>
             </div>
@@ -161,6 +161,14 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
             <label class="opt-item"><input type="checkbox" name="option" value="sigmatek" data-label="Controller from a European manufacturer — SIGMATEK"><span class="opt-box" aria-hidden="true"></span><span class="opt-text">Controller from a European manufacturer — SIGMATEK</span></label>
             <label class="opt-item"><input type="checkbox" name="option" value="sockets" data-label="Socket combination: 2 × single-phase sockets + 2 × CEE 16 A sockets"><span class="opt-box" aria-hidden="true"></span><span class="opt-text">Socket combination: 2 × single-phase sockets + 2 × CEE 16 A sockets</span></label>
             <label class="opt-item"><input type="checkbox" name="option" value="water" data-label="Cooling-water manifolds with distribution to the mould"><span class="opt-box" aria-hidden="true"></span><span class="opt-text">Cooling-water manifolds with distribution to the mould</span></label>
+          </fieldset>
+          <fieldset class="opt-group">
+            <legend>Communication</legend>
+            <label class="opt-item"><input type="checkbox" name="option" value="euromap77" data-label="Data transfer (via EUROMAP 77)"><span class="opt-box" aria-hidden="true"></span><span class="opt-text">Data transfer <small>via EUROMAP 77</small></span></label>
+            <div class="opt-item-wrap" data-choice-for="digital-io" data-choice-msg="Choose 2 + 2 or 4 + 4 digital inputs and outputs.">
+              <label class="opt-item"><input type="checkbox" name="option" value="digital-io" data-label="Digital inputs + digital outputs"><span class="opt-box" aria-hidden="true"></span><span class="opt-text">Digital inputs + digital outputs</span></label>
+              <div class="opt-qty" role="radiogroup" aria-label="Digital inputs + digital outputs — Inputs + outputs:"><span class="opt-qty-label">Inputs + outputs:</span><button type="button" class="opt-qty-btn" role="radio" aria-checked="false" data-qty="2 + 2">2 + 2</button><button type="button" class="opt-qty-btn" role="radio" aria-checked="false" data-qty="4 + 4">4 + 4</button><span class="opt-qty-hint" data-qty-hint hidden>Choose 2 + 2 or 4 + 4</span></div>
+            </div>
           </fieldset>
           <fieldset class="opt-group opt-other">
             <legend>Other options</legend>
@@ -259,7 +267,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
   </footer>
 </div>
 <script src="/assets/js/site.js?v=416f8b3f" defer></script>
-<script src="/assets/js/techfile.js?v=1f59c22a" defer></script>
+<script src="/assets/js/techfile.js?v=f4fc86f6" defer></script>
 
 </body>
 </html>
