@@ -121,7 +121,8 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
           </fieldset>
 
           <fieldset class="calc-block calc-m1">
-            <legend><span class="calc-dot"></span>Machine 1 — single table<span class="calc-type-ico" data-type-ico="1" aria-hidden="true"></span></legend>
+            <legend><span class="calc-dot"></span>Machine 1 — single table</legend>
+            <div class="calc-mgrid"><div class="calc-mfields">
             <label class="calc-field"><span class="calc-label">Table type</span>
               <select class="input" name="type1">
                 <option value="standard" data-travel="0">Standard table (TY)</option>
@@ -130,10 +131,12 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
             <label class="calc-field"><span class="calc-label">Table travel</span>
               <span class="calc-input"><input class="input" type="number" name="travel" value="0" inputmode="decimal" min="0" step="0.5"><span class="calc-unit">s</span></span>
               <small>Slide out + in; 0 for a fixed table</small></label>
+            </div><div class="calc-type-anim" data-type-ico="1" aria-hidden="true"></div></div>
           </fieldset>
 
           <fieldset class="calc-block calc-m2">
-            <legend><span class="calc-dot"></span>Machine 2 — TAYU rotary table<span class="calc-type-ico" data-type-ico="2" aria-hidden="true"></span></legend>
+            <legend><span class="calc-dot"></span>Machine 2 — TAYU rotary table</legend>
+            <div class="calc-mgrid"><div class="calc-mfields">
             <label class="calc-field"><span class="calc-label">Table type</span>
               <select class="input" name="type2">
                 <option value="2r" data-index="3">Rotary table, 2 stations (TY-2R)</option>
@@ -143,6 +146,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
             <label class="calc-field"><span class="calc-label">Table index / change time</span>
               <span class="calc-input"><input class="input" type="number" name="index" value="3" inputmode="decimal" min="0" step="0.5"><span class="calc-unit">s</span></span>
               <small>Rotation or shuttle movement between shots</small></label>
+            </div><div class="calc-type-anim" data-type-ico="2" aria-hidden="true"></div></div>
           </fieldset>
 
           <fieldset class="calc-block">

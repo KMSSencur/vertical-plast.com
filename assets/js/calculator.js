@@ -90,12 +90,66 @@
     }
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48" width="' + w + '" height="' + h + '">' + s.join("") + "</svg>";
   }
+  /* animated top view of the selected table type (CSS keyframes in calculator.css) */
+  function typeAnim(key) {
+    var c = TYPE_COLOR[key] || "#1f5fd6", s = [];
+    function mould(x, y, w, h) { s.push('<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="3" fill="' + c + '" fill-opacity=".2" stroke="' + c + '" stroke-width="2"/>'); }
+    function melt(x, y, w, h) { s.push('<rect class="ta-melt" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="3" fill="#ff6a2b"/>'); }
+    function clampZone(x, y, w, h) {
+      s.push('<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="4" fill="none" stroke="' + c + '" stroke-width="1.5" stroke-dasharray="4 3"/>');
+      s.push('<text x="' + (x + w / 2) + '" y="' + (y - 4) + '" text-anchor="middle" font-size="8" letter-spacing=".8" fill="' + c + '">CLAMP</text>');
+    }
+    function op(y, label) { s.push('<text x="60" y="' + y + '" text-anchor="middle" font-size="8" letter-spacing=".8" fill="#5b6474">' + (label || "\u25BE OPERATOR") + "</text>"); }
+    if (key === "standard") {
+      s.push('<rect x="14" y="22" width="92" height="92" rx="8" fill="#fff" stroke="' + c + '" stroke-width="2"/>');
+      [[25, 33], [95, 33], [25, 103], [95, 103]].forEach(function (q) { s.push('<circle cx="' + q[0] + '" cy="' + q[1] + '" r="4" fill="' + c + '"/>'); });
+      clampZone(36, 44, 48, 48); mould(40, 48, 40, 40); melt(40, 48, 40, 40);
+      s.push('<rect class="ta-insert" x="52" y="60" width="16" height="16" rx="2" fill="' + c + '"/>');
+      op(140);
+    } else if (key === "slide") {
+      clampZone(26, 14, 68, 50);
+      s.push('<path d="M36 20V136M84 20V136" stroke="' + c + '" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/>');
+      s.push('<g class="ta-slide">');
+      s.push('<rect x="28" y="18" width="64" height="42" rx="5" fill="#fff" stroke="' + c + '" stroke-width="2"/>');
+      mould(42, 25, 36, 28); melt(42, 25, 36, 28);
+      s.push('<rect class="ta-insert-s" x="52" y="31" width="16" height="16" rx="2" fill="' + c + '"/>');
+      s.push("</g>");
+      op(146);
+    } else if (key === "ds") {
+      clampZone(26, 56, 68, 40);
+      s.push('<path d="M36 8V144M84 8V144" stroke="' + c + '" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/>');
+      s.push('<g class="ta-shuttle">');
+      s.push('<rect x="30" y="54" width="60" height="88" rx="5" fill="#fff" stroke="' + c + '" stroke-width="2"/>');
+      mould(42, 60, 36, 32); mould(42, 104, 36, 32);
+      s.push("</g>");
+      melt(42, 60, 36, 32);
+      op(152, "\u25BE LOAD \u25B4");
+    } else {
+      var n = key === "3r" ? 3 : 2, cx = 60, cy = 80, R = 50, sz = n === 3 ? 26 : 30, rr = R - sz / 2 - 6;
+      clampZone(cx - 22, cy - R - 2, 44, 44);
+      s.push('<g class="ta-rot' + n + '">');
+      s.push('<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="' + c + '" fill-opacity=".07" stroke="' + c + '" stroke-width="2"/>');
+      s.push('<circle cx="' + cx + '" cy="' + cy + '" r="4" fill="' + c + '"/>');
+      for (var i = 0; i < n; i++) {
+        var ang = -Math.PI / 2 + i * 2 * Math.PI / n, x = cx + Math.cos(ang) * rr, y = cy + Math.sin(ang) * rr;
+        s.push('<line x1="' + cx + '" y1="' + cy + '" x2="' + x.toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="' + c + '" stroke-opacity=".35" stroke-width="1.5"/>');
+        mould((x - sz / 2).toFixed(1), (y - sz / 2).toFixed(1), sz, sz);
+        // station 1 carries a loaded insert, so the indexing is easy to follow
+        if (i === 0) s.push('<rect x="' + (x - 6).toFixed(1) + '" y="' + (y - 6).toFixed(1) + '" width="12" height="12" rx="2" fill="#1f2a44"/>');
+      }
+      s.push("</g>");
+      melt((cx - sz / 2).toFixed(1), (cy - rr - sz / 2).toFixed(1), sz, sz);
+      op(148);
+    }
+    return '<svg class="ta ta-' + key + '" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 156" font-family="ui-monospace, Menlo, Consolas, monospace">' + s.join("") + "</svg>";
+  }
   function paintIcons() {
     var t1 = form.elements.type1.value, t2 = form.elements.type2.value;
     [["1", t1, selText("type1")], ["2", t2, "TAYU " + selText("type2")]].forEach(function (d) {
       var el = app.querySelector('[data-type-ico="' + d[0] + '"]');
-      if (!el) return;
-      el.innerHTML = typeIcon(d[1], 64); el.title = d[2];
+      if (!el || el.getAttribute("data-key") === d[1]) return;   // keep the running animation
+      el.setAttribute("data-key", d[1]);
+      el.innerHTML = typeAnim(d[1]) + '<span class="calc-type-cap">' + esc(d[2]) + "</span>";
       el.style.setProperty("--ico", TYPE_COLOR[d[1]]);
     });
   }

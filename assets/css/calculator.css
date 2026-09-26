@@ -3,7 +3,7 @@
 .calc-hero { background: radial-gradient(55% 90% at 100% 0%, color-mix(in srgb, var(--t4) 12%, transparent), transparent 70%),
                         radial-gradient(40% 80% at 0% 100%, color-mix(in srgb, var(--t2) 10%, transparent), transparent 70%); }
 
-.calc-grid { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 28px; align-items: start; }
+.calc-grid { display: grid; grid-template-columns: 460px minmax(0, 1fr); gap: 28px; align-items: start; }
 
 /* inputs */
 .calc-form { display: grid; gap: 14px; position: sticky; top: 16px; }
@@ -70,7 +70,41 @@
   .calc-row3 { grid-template-columns: 1fr 1fr; }
 }
 
-/* table-type icon at the right of the machine headings */
-.calc-type-ico { margin-left: auto; display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 56px; flex: none;
-  border-radius: 10px; background: color-mix(in srgb, var(--ico, #1f5fd6) 8%, #fff); border: 1px solid color-mix(in srgb, var(--ico, #1f5fd6) 25%, transparent); }
-.calc-type-ico svg { display: block; width: 60px; height: 45px; }
+/* machine cards: fields left, animated table-type view right */
+.calc-mgrid { display: grid; grid-template-columns: minmax(0, 1fr) 132px; gap: 16px; align-items: stretch; }
+.calc-type-anim { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; padding: 10px 6px 8px;
+  border-radius: 12px; background: color-mix(in srgb, var(--ico, #1f5fd6) 7%, #fff); border: 1px solid color-mix(in srgb, var(--ico, #1f5fd6) 22%, transparent); }
+.calc-type-anim svg { display: block; width: 100%; max-width: 120px; height: auto; }
+.calc-type-cap { font-size: 11px; line-height: 1.25; text-align: center; font-weight: 600; color: color-mix(in srgb, var(--ico, #1f5fd6) 75%, var(--color-text)); }
+@media (max-width: 420px) { .calc-mgrid { grid-template-columns: minmax(0, 1fr) 104px; gap: 10px; } }
+
+/* movements — one 4.8 s cycle per table type */
+.ta .ta-melt { opacity: 0; }
+.ta g, .ta rect { transform-box: view-box; }
+.ta-rot2, .ta-rot3 { transform-origin: 60px 80px; }
+@media (prefers-reduced-motion: no-preference) {
+  .ta-standard .ta-melt { animation: ta-melt-std 4.8s ease-in-out infinite; }
+  .ta-standard .ta-insert { animation: ta-insert-std 4.8s ease-in-out infinite; }
+  .ta-slide .ta-slide { animation: ta-slide 4.8s ease-in-out infinite; }
+  .ta-slide .ta-melt { animation: ta-melt-slide 4.8s ease-in-out infinite; }
+  .ta-slide .ta-insert-s { animation: ta-insert-slide 4.8s ease-in-out infinite; }
+  .ta-ds .ta-shuttle { animation: ta-shuttle 4.8s ease-in-out infinite; }
+  .ta-ds .ta-melt { animation: ta-melt-2 4.8s ease-in-out infinite; }
+  .ta-2r .ta-rot2 { animation: ta-rot2 4.8s ease-in-out infinite; }
+  .ta-2r .ta-melt { animation: ta-melt-2 4.8s ease-in-out infinite; }
+  .ta-3r .ta-rot3 { animation: ta-rot3 4.8s ease-in-out infinite; }
+  .ta-3r .ta-melt { animation: ta-melt-3 4.8s ease-in-out infinite; }
+}
+@media (prefers-reduced-motion: reduce) { .ta .ta-melt { opacity: .6; } }
+@keyframes ta-melt-std { 0%, 2% { opacity: 0; } 8%, 40% { opacity: .8; } 46%, 100% { opacity: 0; } }
+@keyframes ta-insert-std { 0%, 48% { opacity: 0; transform: translateY(52px); } 54% { opacity: 1; transform: translateY(52px); } 76%, 100% { opacity: 1; transform: translateY(0); } }
+@keyframes ta-slide { 0%, 36% { transform: translateY(0); } 48%, 82% { transform: translateY(74px); } 94%, 100% { transform: translateY(0); } }
+@keyframes ta-melt-slide { 0%, 2% { opacity: 0; } 8%, 30% { opacity: .8; } 36%, 100% { opacity: 0; } }
+@keyframes ta-insert-slide { 0%, 55% { opacity: 0; } 62%, 100% { opacity: 1; } }
+@keyframes ta-shuttle { 0%, 36% { transform: translateY(0); } 46%, 86% { transform: translateY(-44px); } 96%, 100% { transform: translateY(0); } }
+@keyframes ta-melt-2 { 0%, 2% { opacity: 0; } 8%, 30% { opacity: .8; } 36%, 50% { opacity: 0; } 56%, 80% { opacity: .8; } 86%, 100% { opacity: 0; } }
+@keyframes ta-rot2 { 0%, 36% { transform: rotate(0deg); } 48%, 86% { transform: rotate(180deg); } 98%, 100% { transform: rotate(360deg); } }
+@keyframes ta-rot3 { 0%, 24% { transform: rotate(0deg); } 33%, 57% { transform: rotate(120deg); } 66%, 90% { transform: rotate(240deg); } 99%, 100% { transform: rotate(360deg); } }
+@keyframes ta-melt-3 { 0%, 2% { opacity: 0; } 6%, 20% { opacity: .8; } 24%, 35% { opacity: 0; } 39%, 53% { opacity: .8; } 57%, 68% { opacity: 0; } 72%, 86% { opacity: .8; } 90%, 100% { opacity: 0; } }
+.calc-mgrid select.input { text-overflow: ellipsis; }
+@media (min-width: 1001px) { .calc-mgrid { grid-template-columns: minmax(0, 1fr) 124px; gap: 14px; } }
