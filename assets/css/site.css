@@ -174,7 +174,7 @@
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
           mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
 }
-.ib-track { display: flex; width: max-content; height: 100%; animation: ib-drift 90s linear infinite; }
+.ib-track { display: flex; width: max-content; height: 100%; animation: ib-drift 120s linear infinite; }
 .ib:hover .ib-track { animation-play-state: paused; }
 .ib-dup { display: contents; }
 @keyframes ib-drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
@@ -183,9 +183,9 @@
 .ib-item img {
   display: block; height: 100%; width: auto;
   mix-blend-mode: multiply;
-  filter: saturate(1.15) contrast(1.05);
-  -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent 100%);
-          mask-image: radial-gradient(closest-side, #000 62%, transparent 100%);
+  filter: saturate(1.2) contrast(1.06);
+  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+          mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
   transition: filter 500ms ease, transform 700ms cubic-bezier(.2,.7,.2,1);
 }
 /* a loose rhythm instead of a rigid row: alternate scale and height */
@@ -208,6 +208,11 @@
 /* nav: the new high-precision page gets a small pulse dot */
 .mainnav a.nav-new { position: relative; padding-right: 10px; }
 .mainnav a.nav-new::after { content: ""; position: absolute; top: 2px; right: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+/* seven nav items: a little tighter just above the collapse breakpoint (1080px) so the header never overflows */
+@media (min-width: 1081px) and (max-width: 1240px) { .mainnav { gap: 12px; } }
+/* nav: the cell simulation gets a small play triangle */
+.mainnav a.nav-sim::before { content: ""; display: inline-block; margin-right: 6px; vertical-align: 1px;
+  border-left: 7px solid var(--accent); border-top: 4.5px solid transparent; border-bottom: 4.5px solid transparent; }
 
 /* ── brand: original KMS logo (#0055A5); white on the dark footer ── */
 .brand img { display: block; height: 26px; width: auto; }

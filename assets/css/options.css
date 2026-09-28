@@ -145,3 +145,20 @@
 .opt-qty-multi { flex-direction: column; align-items: flex-start; gap: 6px; }
 .opt-qty-rowline { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .opt-qty-rowline .opt-qty-label { min-width: 92px; }
+
+/* choice as cards with key figures (wear-resistant screw & barrel: Class B / Class A) */
+.opt-qty-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+.opt-qty-cards .opt-qty-label, .opt-qty-cards .opt-qty-hint { grid-column: 1 / -1; }
+.opt-qty-card { display: flex; flex-direction: column; align-items: stretch; gap: 6px; min-width: 0; padding: 12px 14px 14px;
+  border-radius: var(--radius-md); text-align: left; font-family: var(--font-body); font-weight: 400; font-size: 13px; line-height: 1.35; }
+.opt-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.opt-card-head b { font-family: var(--font-heading); font-weight: 600; font-size: 20px; line-height: 1; }
+.opt-card-head small { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+.opt-card-big { font-family: var(--font-heading); font-weight: 600; font-size: 17px; color: var(--color-accent-700); }
+.opt-card-row { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 8px; padding-top: 5px; border-top: 1px solid var(--color-divider); }
+.opt-card-row > span:first-child { color: color-mix(in srgb, var(--color-text) 60%, transparent); }
+.opt-qty-card[aria-checked="true"] { background: linear-gradient(135deg, var(--color-accent-600), var(--color-accent-800)); }
+.opt-qty-card[aria-checked="true"] .opt-card-big { color: #fff; }
+.opt-qty-card[aria-checked="true"] .opt-card-row { border-top-color: color-mix(in srgb, #fff 30%, transparent); }
+.opt-qty-card[aria-checked="true"] .opt-card-row > span:first-child { color: color-mix(in srgb, #fff 78%, transparent); }
+@media (max-width: 640px) { .opt-qty-cards { grid-template-columns: minmax(0, 1fr); padding-left: 12px; } }

@@ -1,0 +1,85 @@
+/* ── /create-simulation — landing page + full-screen simulation overlay ──
+   Two big cards (EN / SL) are the start buttons; simulation.js opens the chosen
+   simulation (/simulation/en or /simulation/sl) full screen in a <dialog>. */
+
+.sim-lead { max-width: 720px; }
+
+/* start cards: the whole card is the button */
+.sim-start { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 34px; }
+.sim-card { display: flex; flex-direction: column; min-width: 0; border-radius: 22px; overflow: hidden; text-decoration: none; color: var(--color-text);
+  background: #fff; border: 1px solid var(--color-divider);
+  box-shadow: 0 14px 40px color-mix(in srgb, #13213f 12%, transparent);
+  transition: transform 260ms cubic-bezier(.2,.7,.2,1), box-shadow 260ms ease, border-color 200ms ease; }
+.sim-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 22px 54px color-mix(in srgb, #13213f 20%, transparent); }
+.sim-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.sim-card-media { position: relative; display: block; aspect-ratio: 16 / 10; background: #f4f3ee; overflow: hidden; }
+.sim-card-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 600ms cubic-bezier(.2,.7,.2,1); }
+.sim-card:hover .sim-card-media img { transform: scale(1.03); }
+.sim-card-media::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(60% 60% at 50% 50%, color-mix(in srgb, #0b1733 22%, transparent), transparent 75%); }
+
+/* the big play button in the middle of each preview */
+.sim-play { position: absolute; z-index: 1; left: 50%; top: 50%; width: 104px; height: 104px; margin: -52px 0 0 -52px; border-radius: 50%;
+  display: grid; place-items: center; color: #fff; background: var(--accent);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--accent) 55%, transparent), 0 0 0 8px color-mix(in srgb, #fff 70%, transparent);
+  transition: transform 260ms cubic-bezier(.2,.7,.2,1); }
+.sim-play svg { margin-left: 5px; }
+.sim-card:hover .sim-play, .sim-card:focus-visible .sim-play { transform: scale(1.1); }
+@media (prefers-reduced-motion: no-preference) {
+  .sim-play::before { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 3px solid var(--accent); animation: sim-ring 2.2s ease-out infinite; }
+}
+@keyframes sim-ring { from { transform: scale(1); opacity: .7; } to { transform: scale(1.55); opacity: 0; } }
+
+.sim-card-body { display: grid; gap: 7px; padding: 18px 22px 22px; }
+.sim-lang { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--color-accent-600); }
+.sim-flag { padding: 3px 7px; border-radius: 6px; color: #fff; background: var(--color-accent); letter-spacing: .08em; }
+.sim-cta { font-family: var(--font-heading); font-weight: 600; font-size: 32px; line-height: 1.02; letter-spacing: -.01em; color: var(--accent-700); }
+.sim-card:hover .sim-cta span { display: inline-block; transform: translateX(4px); transition: transform 200ms ease; }
+.sim-card-body small { font-size: 14px; color: color-mix(in srgb, var(--color-text) 65%, transparent); }
+
+.sim-facts { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 22px 0 0; padding: 0; list-style: none; font-size: 14px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+.sim-facts li::before { content: "✓"; margin-right: 7px; font-weight: 600; color: var(--color-accent); }
+
+/* how it works */
+.sim-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin: 0; padding: 0; list-style: none; }
+.sim-steps li { padding: 22px 22px 24px; border-radius: var(--radius-lg); background: #fff; border: 1px solid var(--color-divider); box-shadow: var(--shadow-sm); }
+.sim-step-n { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: #fff; background: var(--color-accent);
+  font-family: var(--font-heading); font-weight: 600; font-size: 18px; }
+.sim-steps h3 { margin: 12px 0 6px; font-family: var(--font-heading); font-weight: 600; font-size: 24px; line-height: 1.1; }
+.sim-steps p { margin: 0; font-size: 15px; line-height: 1.5; color: color-mix(in srgb, var(--color-text) 78%, transparent); }
+
+.sim-help { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; padding: 28px 30px;
+  border-radius: var(--radius-lg); background: linear-gradient(135deg, #fff7ef, #fff); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.sim-help-title { margin: 0 0 6px; font-family: var(--font-heading); font-weight: 600; font-size: 30px; line-height: 1.05; }
+.sim-help p { margin: 0; max-width: 620px; color: color-mix(in srgb, var(--color-text) 78%, transparent); }
+
+@media (max-width: 860px) {
+  .sim-start, .sim-steps { grid-template-columns: minmax(0, 1fr); }
+  .sim-cta { font-size: 28px; }
+  .sim-play { width: 84px; height: 84px; margin: -42px 0 0 -42px; }
+  .sim-play svg { width: 32px; height: 32px; }
+}
+
+/* ── full-screen overlay ── */
+.sim-overlay { width: 100vw; height: 100vh; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+  color: var(--color-text); background: #fff; }
+.sim-overlay[open] { display: flex; flex-direction: column; }
+.sim-overlay::backdrop { background: color-mix(in srgb, #0b1733 60%, transparent); }
+.sim-bar { flex: none; display: flex; align-items: center; gap: 12px; height: 50px; padding: 0 12px 0 16px;
+  border-bottom: 1px solid var(--color-divider); background: #fff; }
+.sim-bar-title { display: inline-flex; align-items: center; gap: 12px; margin-right: auto; min-width: 0; white-space: nowrap;
+  font-family: var(--font-heading); font-weight: 600; font-size: 19px; }
+.sim-bar-title img { display: block; height: 20px; width: auto; }
+.sim-bar-lang { display: inline-flex; padding: 2px; border: 1px solid var(--color-divider); border-radius: 999px; }
+.sim-bar-lang button { min-width: 42px; height: 30px; padding: 0 10px; border: 0; border-radius: 999px; cursor: pointer;
+  font-family: var(--font-body); font-weight: 600; font-size: 13px; color: var(--color-text); background: transparent; }
+.sim-bar-lang button:hover { background: var(--color-accent-100); }
+.sim-bar-lang button[aria-pressed="true"] { color: #fff; background: var(--color-accent); }
+.sim-bar-link { font-size: 13px; font-weight: 500; white-space: nowrap; }
+.sim-bar-close { height: 34px; padding: 0 16px; border: 0; border-radius: 999px; cursor: pointer; white-space: nowrap;
+  font-family: var(--font-body); font-weight: 600; font-size: 14px; color: #fff; background: var(--accent); }
+.sim-bar-close:hover { filter: brightness(1.08); }
+.sim-frame { flex: 1; display: block; width: 100%; min-height: 0; border: 0; background: #FAFAF7; }
+html.sim-open { overflow: hidden; }
+@media (max-width: 600px) { .sim-bar-link, .sim-bar-title b { display: none; } }

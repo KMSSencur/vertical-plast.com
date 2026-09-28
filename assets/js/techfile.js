@@ -10,8 +10,18 @@
   var MAIL = "info@kms.si";
 
   function load() {
-    try { var s = JSON.parse(localStorage.getItem(KEY) || "null"); return s && typeof s === "object" ? s : {}; }
+    try { var s = JSON.parse(localStorage.getItem(KEY) || "null"); return s && typeof s === "object" ? migrate(s) : {}; }
     catch (e) { return {}; }
+  }
+  // 2026-09-28: "SIGMATEK controller" became "European controller" with a SIGMATEK / KEBA choice
+  function migrate(s) {
+    var o = Array.isArray(s.options) ? s.options : [], i = o.indexOf("sigmatek");
+    if (i !== -1) {
+      o[i] = "eu-controller";
+      s.qty = s.qty && typeof s.qty === "object" ? s.qty : {};
+      if (!s.qty["eu-controller"]) s.qty["eu-controller"] = "SIGMATEK";
+    }
+    return s;
   }
   function save(s) { s.updated = new Date().toISOString(); try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
   function opts(s) { return Array.isArray(s.options) ? s.options : []; }
@@ -84,7 +94,7 @@
       if (!q) return b.getAttribute("data-label");
       var w = app.querySelector('[data-choice-for="' + b.value + '"]'), parts = [];
       if (w) Array.prototype.forEach.call(w.querySelectorAll("[data-qty]"), function (c) {
-        if (isPicked(b.value, c)) parts.push((c.getAttribute("data-row-label") ? c.getAttribute("data-row-label") + " " : "") + c.textContent.trim());
+        if (isPicked(b.value, c)) parts.push((c.getAttribute("data-row-label") ? c.getAttribute("data-row-label") + " " : "") + (c.getAttribute("data-qty-label") || c.textContent.trim()));
       });
       return b.getAttribute("data-label") + " — " + (parts.length ? parts.join(", ") : q);
     }
@@ -147,7 +157,7 @@
         var li = document.createElement("li");
         var t = document.createElement("span"); t.textContent = labelFor(b);
         var cw = app.querySelector('[data-choice-for="' + b.value + '"]');
-        if (qtyOf(b.value) === "" && cw) { t.textContent += " — " + cw.querySelector("[data-qty-hint]").textContent.toLowerCase(); li.className = "is-warn"; }
+        if (qtyOf(b.value) === "" && cw) { var hint = cw.querySelector("[data-qty-hint]").textContent; t.textContent += " — " + hint.charAt(0).toLowerCase() + hint.slice(1); li.className = "is-warn"; }
         var x = document.createElement("button"); x.type = "button"; x.className = "opt-remove"; x.setAttribute("aria-label", "Remove " + b.getAttribute("data-label")); x.textContent = "×";
         x.addEventListener("click", function () { s.options = opts(s).filter(function (v) { return v !== b.value; }); if (s.qty) delete s.qty[b.value]; save(s); paint(); });
         li.appendChild(t); li.appendChild(x); fileList.appendChild(li);
