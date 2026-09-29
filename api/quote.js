@@ -149,7 +149,15 @@ module.exports = async function handler(req, res) {
   if (f.phone.replace(/\D/g, '').length < 6) return reply(400, { ok: false, error: 'Please check your phone number.' });
 
   const cfg = CFG();
-  if (!cfg.pass) { console.error('quote: SMTP_PASS is not set'); return reply(503, { ok: false, error: 'Sending is not configured yet.' }); }
+  if (!cfg.pass) {
+    // TEMPORARY diagnostic (2026-09-29, remove once sending works): which deployment answered and which
+    // SMTP_/MAIL_ variable NAMES it sees — never values.
+    const diag = { deployment: process.env.VERCEL_URL || null, env: process.env.VERCEL_ENV || null,
+      commit: (process.env.VERCEL_GIT_COMMIT_SHA || '').slice(0, 7) || null,
+      vars: Object.keys(process.env).filter(k => /smtp|mail/i.test(k)).map(k => JSON.stringify(k)) };
+    console.error('quote: SMTP_PASS is not set', diag);
+    return reply(503, { ok: false, error: 'Sending is not configured yet.', diag });
+  }
 
   const toKms = message({
     from: cfg.from, fromName: FROM_NAME, to: cfg.to, replyTo: f.email,
