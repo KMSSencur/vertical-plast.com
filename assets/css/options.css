@@ -95,6 +95,12 @@
 .opt-fields .input { margin-top: 4px; min-height: 38px; background: #fff; }
 .opt-fields textarea.input { min-height: 70px; }
 .opt-wide { grid-column: 1 / -1; }
+/* every field is required: * marks, red outline on the ones still missing, hidden spam trap */
+.opt-req { color: #ffb08c; font-weight: 600; }
+.opt-req-note { margin: -2px 0 10px; font-size: 12px; color: color-mix(in srgb, #fff 65%, transparent); }
+.opt-fields .input.is-invalid { border-color: #ff8a65; box-shadow: 0 0 0 3px color-mix(in srgb, #ff8a65 45%, transparent); }
+.opt-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.opt-send:disabled { opacity: .7; cursor: progress; }
 .opt-send { margin-top: 14px; min-height: 48px; font-size: 16px; }
 .opt-status { margin: 10px 0 0; font-size: 13px; min-height: 1em; }
 .opt-status.is-ok { color: #7ff0c8; }

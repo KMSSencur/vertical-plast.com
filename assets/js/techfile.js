@@ -7,7 +7,7 @@
 (function () {
   "use strict";
   var KEY = "kms_techfile";
-  var MAIL = "info@kms.si";
+  var MAIL = "jakob.jelenc@kms.si";   // quotation requests go to Jakob Jelenc (not info@kms.si)
 
   function load() {
     try { var s = JSON.parse(localStorage.getItem(KEY) || "null"); return s && typeof s === "object" ? migrate(s) : {}; }
@@ -67,6 +67,7 @@
     var status = app.querySelector("[data-opt-status]");
     var choiceWraps = app.querySelectorAll("[data-choice-for]");
     var customEl = app.querySelector("[data-opt-custom]");
+    var openedAt = Date.now();   // sent as _t: the server ignores forms "filled in" faster than a person can
 
     // options that need a quantity (e.g. hot-runner zones): s.qty = { optionId: "8" }
     function qtyRaw(id) { return s.qty && s.qty[id]; }
@@ -216,12 +217,29 @@
     });
 
     // contact fields persist too, so the file is complete when the visitor comes back
+    // (names starting with "_" are form-service fields, e.g. the _gotcha spam trap — never stored)
     var contact = s.contact || {};
-    Array.prototype.forEach.call(form.elements, function (el) {
-      if (!el.name) return;
+    var fields = Array.prototype.filter.call(form.elements, function (el) { return el.name && el.name.charAt(0) !== "_"; });
+    fields.forEach(function (el) {
       if (contact[el.name]) el.value = contact[el.name];
-      el.addEventListener("input", function () { s.contact = s.contact || {}; s.contact[el.name] = el.value; save(s); });
+      function upd() { s.contact = s.contact || {}; s.contact[el.name] = el.value; save(s); if (el.classList.contains("is-invalid")) mark(el, true); }
+      el.addEventListener("input", upd);
+      el.addEventListener("change", upd);
     });
+    function mark(el, ok) { el.classList.toggle("is-invalid", !ok); if (ok) el.removeAttribute("aria-invalid"); else el.setAttribute("aria-invalid", "true"); }
+    var EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    // every field is required: returns the first field that is empty or not valid (or null)
+    function badField() {
+      var first = null;
+      fields.forEach(function (el) {
+        if (!el.required) return;
+        var v = el.value.trim();
+        var ok = !!v && (el.type !== "email" || EMAIL_RE.test(v)) && (el.name !== "phone" || v.replace(/\D/g, "").length >= 6);
+        mark(el, ok);
+        if (!ok && !first) first = el;
+      });
+      return first;
+    }
 
     function specText(c) {
       var m = byId[s.series];
@@ -237,7 +255,7 @@
       lines.push("", "Created " + new Date().toLocaleString() + " on " + location.host);
       return lines.join("\n");
     }
-    function contactNow() { var c = {}; Array.prototype.forEach.call(form.elements, function (el) { if (el.name) c[el.name] = el.value.trim(); }); return c; }
+    function contactNow() { var c = {}; fields.forEach(function (el) { c[el.name] = el.value.trim(); }); return c; }
     function say(msg, kind) { status.textContent = msg; status.className = "opt-status" + (kind ? " is-" + kind : ""); }
 
     form.addEventListener("submit", function (e) {
@@ -254,22 +272,43 @@
         missing.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
       }
+      var bad = badField();
+      if (bad) {
+        var v = bad.value.trim();
+        say(v && bad.type === "email" ? "Please check your email address." : v && bad.name === "phone" ? "Please check your phone number." : "Please fill in all fields marked *.", "warn");
+        bad.focus();
+        return;
+      }
       var c = contactNow();
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.email || "")) { say("Please enter your email so we can send the quotation.", "warn"); form.elements.email.focus(); return; }
       var spec = specText(c);
-      var subject = "Quotation request — " + s.model + (c.company ? " — " + c.company : "");
+      var subject = "Quotation request — " + s.model + " — " + c.company;
       var endpoint = form.getAttribute("data-endpoint");
-      if (endpoint) {
-        say("Sending…");
-        fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({ subject: subject, email: c.email, name: c.name, company: c.company, phone: c.phone, country: c.country, message: spec }) })
-          .then(function (r) { if (!r.ok) throw new Error(r.status); s.sent = new Date().toISOString(); save(s); say("Thank you — your specification is with KMS. We will send you a quotation.", "ok"); })
-          .catch(function () { say("Sending failed — please email " + MAIL + " or use “Download technical file”.", "warn"); });
-      } else {
+      function viaMailProgram() {   // fallback: the visitor's own email program, addressed to KMS
         s.sent = new Date().toISOString(); save(s);
         location.href = "mailto:" + MAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(spec);
         say("Your email program has opened with the full specification — press Send and KMS will prepare your quotation.", "ok");
       }
+      if (!endpoint) { viaMailProgram(); return; }
+      // /api/quote: e-mails the full specification to KMS (jakob.jelenc@kms.si) and a copy to the visitor
+      var btn = form.querySelector('[type="submit"]');
+      var failed = "Sending failed — please try again, or email " + MAIL + " and attach the downloaded technical file.";
+      btn.disabled = true;
+      say("Sending…");
+      fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ email: c.email, name: c.name, company: c.company, phone: c.phone, country: c.country,
+          machine: s.model, message: spec, _gotcha: form.elements._gotcha ? form.elements._gotcha.value : "", _t: Date.now() - openedAt }) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { j.status = r.status; return j; }); })
+        .then(function (j) {
+          if (j.ok) {
+            s.sent = new Date().toISOString(); save(s);
+            say(j.copy ? "Thank you — your specification has been sent to KMS. A copy is on its way to " + c.email + "."
+                       : "Thank you — your specification has been sent to KMS. We will reply with a quotation.", "ok");
+          }
+          else if (j.status === 404 || j.status === 405 || j.status === 503) viaMailProgram();   // sending not available / not set up yet
+          else say(j.error && j.status !== 502 ? j.error : failed, "warn");
+        })
+        .catch(function () { say(failed, "warn"); })
+        .then(function () { btn.disabled = false; });
     });
 
     app.querySelector("[data-opt-download]").addEventListener("click", function () {

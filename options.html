@@ -20,7 +20,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/styles.css?v=9a8f3b99">
 <link rel="stylesheet" href="/assets/css/site.css?v=3ec5e865">
-<link rel="stylesheet" href="/assets/css/options.css?v=a0495fb1">
+<link rel="stylesheet" href="/assets/css/options.css?v=375f9437">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -214,15 +214,17 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
           </div>
           <ul class="opt-file-list" data-file-options></ul>
 
-          <form class="opt-form" data-opt-form data-endpoint="" novalidate>
+          <form class="opt-form" data-opt-form data-endpoint="/api/quote" novalidate>
             <p class="kicker"><span class="opt-num opt-num-sm">3</span>Send for quotation</p>
+            <p class="opt-req-note">All fields are required <span class="opt-req" aria-hidden="true">*</span></p>
             <div class="opt-fields">
-              <label>Name<input class="input" name="name" autocomplete="name"></label>
-              <label>Company<input class="input" name="company" autocomplete="organization"></label>
-              <label>Email *<input class="input" name="email" type="email" autocomplete="email" required></label>
-              <label>Phone<input class="input" name="phone" type="tel" autocomplete="tel"></label>
-              <label>Country<select class="input" name="country"><option>Slovenia</option><option>Croatia</option><option>Bosnia and Herzegovina</option><option>Other</option></select></label>
-              <label class="opt-wide">Part / application<textarea class="input" name="message" rows="3" placeholder="Part, material, insert, expected volume…"></textarea></label>
+              <label>Name <span class="opt-req" aria-hidden="true">*</span><input class="input" name="name" autocomplete="name" required></label>
+              <label>Company <span class="opt-req" aria-hidden="true">*</span><input class="input" name="company" autocomplete="organization" required></label>
+              <label>Email <span class="opt-req" aria-hidden="true">*</span><input class="input" name="email" type="email" autocomplete="email" required></label>
+              <label>Phone <span class="opt-req" aria-hidden="true">*</span><input class="input" name="phone" type="tel" autocomplete="tel" required></label>
+              <label>Country <span class="opt-req" aria-hidden="true">*</span><select class="input" name="country" required><option value="">Choose…</option><option>Slovenia</option><option>Croatia</option><option>Bosnia and Herzegovina</option><option>Other</option></select></label>
+              <label class="opt-wide">Part / application <span class="opt-req" aria-hidden="true">*</span><textarea class="input" name="message" rows="3" placeholder="Part, material, insert, expected volume…" required></textarea></label>
+              <label class="opt-hp" aria-hidden="true">Leave empty<input name="_gotcha" tabindex="-1" autocomplete="off"></label>
             </div>
             <button type="submit" class="btn btn-primary btn-block opt-send">Send specification — request a quotation</button>
             <p class="opt-status" data-opt-status role="status" aria-live="polite"></p>
@@ -288,7 +290,7 @@ l[i].q=l[i].q||[];o=e.createElement(a);f=e.getElementsByTagName(a)[0];o.async=1;
   </footer>
 </div>
 <script src="/assets/js/site.js?v=416f8b3f" defer></script>
-<script src="/assets/js/techfile.js?v=bda4f8ad" defer></script>
+<script src="/assets/js/techfile.js?v=6cef5e79" defer></script>
 
 </body>
 </html>
