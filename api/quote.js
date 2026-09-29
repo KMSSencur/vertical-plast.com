@@ -17,7 +17,7 @@ const CFG = () => ({
   user: process.env.SMTP_USER || 'info@vertical-plast.com',
   pass: process.env.SMTP_PASS || '',
   from: process.env.MAIL_FROM || process.env.SMTP_USER || 'info@vertical-plast.com',
-  to: process.env.MAIL_TO || 'jakob.jelenc@kms.si',
+  to: process.env.MAIL_TO || 'info@vertical-plast.com',
 });
 const FROM_NAME = 'KMS · vertical-plast.com';
 const SITE = 'www.vertical-plast.com';

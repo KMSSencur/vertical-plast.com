@@ -7,7 +7,7 @@
 (function () {
   "use strict";
   var KEY = "kms_techfile";
-  var MAIL = "jakob.jelenc@kms.si";   // quotation requests go to Jakob Jelenc (not info@kms.si)
+  var MAIL = "info@vertical-plast.com";   // quotation requests go to info@vertical-plast.com (not info@kms.si)
 
   function load() {
     try { var s = JSON.parse(localStorage.getItem(KEY) || "null"); return s && typeof s === "object" ? migrate(s) : {}; }
@@ -289,7 +289,7 @@
         say("Your email program has opened with the full specification — press Send and KMS will prepare your quotation.", "ok");
       }
       if (!endpoint) { viaMailProgram(); return; }
-      // /api/quote: e-mails the full specification to KMS (jakob.jelenc@kms.si) and a copy to the visitor
+      // /api/quote: e-mails the full specification to KMS (info@vertical-plast.com) and a copy to the visitor
       var btn = form.querySelector('[type="submit"]');
       var failed = "Sending failed — please try again, or email " + MAIL + " and attach the downloaded technical file.";
       btn.disabled = true;
