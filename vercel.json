@@ -58,6 +58,15 @@
       ]
     },
     {
+      "source": "/flexido-orgcilwb(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
       "source": "/simulation/(.*)",
       "headers": [
         {

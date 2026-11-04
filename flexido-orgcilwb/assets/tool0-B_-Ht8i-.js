@@ -1,0 +1,1 @@
+var e=e=>[-e[2],e[1],e[0]];export{e as t};
