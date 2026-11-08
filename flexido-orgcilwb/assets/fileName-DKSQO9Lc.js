@@ -1,0 +1,1 @@
+import{Yl as e}from"./model-ira-82V6.js";var t=e.brand.filePrefix.toLowerCase(),n=(e,n=``)=>`${t}-${e}${n}`;export{n as t};
