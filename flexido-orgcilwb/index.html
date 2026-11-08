@@ -1,38 +1,628 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <base href="/flexido-orgcilwb/" />
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FLEXIDO Configurator</title>
-    <script type="module" crossorigin src="./assets/index-O2eXfggo.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/model-ira-82V6.js">
-    <link rel="modulepreload" crossorigin href="./assets/i18n-RFsFXKaV.js">
-    <link rel="modulepreload" crossorigin href="./assets/Icon-BLxPJ8qy.js">
-    <link rel="modulepreload" crossorigin href="./assets/controls-BxUxBE59.js">
-    <link rel="modulepreload" crossorigin href="./assets/fileName-DKSQO9Lc.js">
-    <link rel="modulepreload" crossorigin href="./assets/noticeStore-BLgE_N15.js">
-    <link rel="modulepreload" crossorigin href="./assets/pedestalParts-y6J3oGMW.js">
-    <link rel="modulepreload" crossorigin href="./assets/ProductionPanel-pyRf2rwm.js">
-    <link rel="stylesheet" crossorigin href="./assets/ProductionPanel-_1r6bBAG.css">
-    <link rel="stylesheet" crossorigin href="./assets/index-4l7YVJPZ.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script>
-      // Opened from disk (file://) the browser blocks the app's ES modules and 3D models: say how to start it
-      // instead of leaving a blank page (docs/README.md "Deliver"). Plain script – it runs where modules do not.
-      if (location.protocol === 'file:') {
-        document.getElementById('root').innerHTML =
-          '<div style="font:16px/1.5 system-ui,sans-serif;max-width:40em;margin:3em auto;padding:0 1em">' +
-          '<h1 style="font-size:1.4em">FLEXIDO Configurator</h1>' +
-          '<p>The configurator cannot run from a file opened directly. Start it with the supplied start script, ' +
-          'or serve this folder with any local web server and open <b>http://localhost</b>. No internet connection is needed.</p>' +
-          '<p lang="sl">Konfiguratorja ni mogoče zagnati z neposrednim odpiranjem datoteke. Zaženite ga s priloženo ' +
-          'zagonsko skripto ali to mapo postrezite s poljubnim lokalnim spletnim strežnikom in odprite <b>http://localhost</b>. ' +
-          'Internetna povezava ni potrebna.</p></div>';
+<head>
+<meta charset="utf-8">
+<base href="/flexido-orgcilwb/" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLEXIDO – Resonance Gate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #28272a;        /* temna siva iz logotipa */
+    --blue: #0094e4;       /* modra iz logotipa */
+    --blue-dark: #0077b8;
+    --blue-soft: #e6f4fd;
+    --bg: #ffffff;
+    --surface: #f4f6f9;
+    --line: #dde3ea;
+    --muted: #6b7280;
+    --ok: #22c55e;
+    --ok-dark: #15803d;
+    --bad: #ef4444;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Quicksand, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    font-weight: 500;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  main { width: min(1040px, 100%); padding: 18px 16px 28px; display: flex; flex-direction: column; gap: 14px; }
+  /* ---- hero: logo + slogan ---- */
+  .hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 14px 0 2px; }
+  .hero img.logo { height: 38px; width: auto; display: block; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 11px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--blue);
+  }
+  .eyebrow::before, .eyebrow::after { content: ''; width: 30px; height: 1.5px; background: var(--blue); opacity: .45; }
+  h1.slogan {
+    margin: 0; font-size: clamp(30px, 4.8vw, 50px); font-weight: 700; line-height: 1.08; letter-spacing: -.015em; color: var(--ink);
+  }
+  h1.slogan em { font-style: normal; color: var(--blue); }
+  svg.wave { width: min(360px, 70%); height: 28px; display: block; margin-top: -2px; overflow: visible; }
+  svg.wave path { fill: none; stroke: url(#waveGrad); stroke-width: 2.2; stroke-linecap: round; }
+  svg.wave circle { fill: var(--blue); filter: drop-shadow(0 0 6px rgba(0,148,228,.7)); }
+
+  .stage {
+    position: relative;
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: 0 18px 50px rgba(40,39,42,.10);
+  }
+  canvas { display: block; width: 100%; height: auto; }
+  #msg {
+    position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+    padding: 9px 16px; border-radius: 999px;
+    background: rgba(255,255,255,.92); border: 1.5px solid var(--line);
+    color: var(--ink); font-size: 14px; font-weight: 700; letter-spacing: .01em;
+    pointer-events: none; transition: background .25s, border-color .25s;
+    text-align: center; max-width: 92%; width: max-content;
+    box-shadow: 0 6px 18px rgba(40,39,42,.10);
+  }
+  #msg.ok  { border-color: var(--ok);  background: #ecfdf3; color: var(--ok-dark); }
+  #msg.bad { border-color: var(--bad); background: #fef2f2; color: #b91c1c; }
+
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 18px;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 16px 20px;
+  }
+  .ctl label { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; color: var(--muted); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .ctl label output { color: var(--blue); font-size: 20px; font-weight: 700; }
+  .ctl input[type=range] { width: 100%; margin: 10px 0 2px; accent-color: var(--blue); cursor: pointer; }
+  .scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); padding: 0 2px; font-weight: 600; }
+  .status { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+  .chips { display: flex; gap: 8px; }
+  .chip {
+    width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+    font-weight: 700; font-size: 17px; border: 2px solid var(--line); color: var(--muted);
+    background: #fff; transition: all .3s;
+  }
+  .chip.done { border-color: var(--ok); color: #fff; background: var(--ok); box-shadow: 0 0 16px rgba(34,197,94,.45); }
+  button {
+    font: inherit; font-weight: 700; letter-spacing: .02em;
+    padding: 9px 18px; border-radius: 12px; border: 1.5px solid var(--line);
+    background: #fff; color: var(--ink); cursor: pointer;
+  }
+  button:hover { border-color: var(--blue); color: var(--blue); }
+  button.primary { background: var(--blue); border-color: var(--blue); color: #fff; font-size: 17px; padding: 14px 28px; }
+  button.primary:hover { background: var(--blue-dark); border-color: var(--blue-dark); color: #fff; }
+
+  #overlay {
+    position: fixed; inset: 0; display: grid; place-items: center;
+    background: rgba(40,39,42,.45); backdrop-filter: blur(6px);
+    opacity: 0; pointer-events: none; transition: opacity .5s;
+  }
+  #overlay.show { opacity: 1; pointer-events: auto; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-top: 6px solid var(--ok); border-radius: 20px;
+    padding: 32px 40px 36px; text-align: center; max-width: 460px; width: calc(100% - 32px);
+    box-shadow: 0 30px 80px rgba(40,39,42,.25);
+  }
+  .card img { height: 42px; margin-bottom: 18px; }
+  .card h2 { margin: 0 0 8px; font-size: 26px; font-weight: 700; }
+  .card h2 span { color: var(--ok-dark); }
+  .card p { color: var(--muted); margin: 0 0 22px; }
+
+  @media (max-width: 720px) {
+    .controls { grid-template-columns: 1fr; }
+    .eyebrow::before, .eyebrow::after { width: 18px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <img class="logo" src="logo.webp" alt="FLEXIDO">
+    <div class="eyebrow">Your partner for unique sales tool configurator</div>
+    <h1 class="slogan">The right <em>vibe</em> opens every door</h1>
+    <svg class="wave" viewBox="0 0 360 28" aria-hidden="true">
+      <defs>
+        <linearGradient id="waveGrad" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="#0094e4" stop-opacity="0"/>
+          <stop offset=".2" stop-color="#0094e4"/>
+          <stop offset=".8" stop-color="#0094e4"/>
+          <stop offset="1" stop-color="#0094e4" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path id="wavePath" d="M0 14 Q 22.5 -4 45 14 T 90 14 T 135 14 T 180 14 T 225 14 T 270 14 T 315 14 T 360 14"/>
+      <circle r="4">
+        <animateMotion dur="5s" repeatCount="indefinite" calcMode="linear"><mpath href="#wavePath"/></animateMotion>
+      </circle>
+    </svg>
+  </header>
+
+  <div class="stage">
+    <canvas id="c" width="1000" height="740"></canvas>
+    <div id="msg">Find the right frequency and amplitude for each rod.</div>
+  </div>
+
+  <section class="controls">
+    <div class="ctl">
+      <label for="freq">Frequency <output id="freqOut">1</output></label>
+      <input id="freq" type="range" min="1" max="10" step="1" value="1">
+      <div class="scale"><span>1 · slow</span><span>10 · fast</span></div>
+    </div>
+    <div class="ctl">
+      <label for="amp">Amplitude <output id="ampOut">1</output></label>
+      <input id="amp" type="range" min="1" max="10" step="1" value="1">
+      <div class="scale"><span>1 · gentle</span><span>10 · strong</span></div>
+    </div>
+    <div class="status">
+      <div class="chips">
+        <div class="chip" id="chip0">X</div>
+        <div class="chip" id="chip1">f</div>
+        <div class="chip" id="chip2">o</div>
+      </div>
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </section>
+</main>
+
+<div id="overlay" aria-hidden="true">
+  <div class="card">
+    <img src="logo.webp" alt="FLEXIDO">
+    <h2>Well done! <span>All three targets</span> hit.</h2>
+    <p>You found the right vibe for every rod. Welcome in.</p>
+    <button class="primary" id="enter" type="button">Enter the website →</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ====== NASTAVITVE ======================================================
+  const TARGET_URL = 'configurator';        // <- URL of the website the solved puzzle leads to
+  const LOGO_SRC = 'logo.webp';          // logo (transparent background, 2000 x 668 px)
+  const REMEMBER_IN_SESSION = true;      // a solved puzzle stays solved until the tab is closed
+
+  // Barve logotipa
+  const INK = '#28272a', BLUE = '#0094e4', BLUE_DARK = '#0077b8';
+  const GREEN = '#22c55e', GREEN_DARK = '#15803d', GREEN_LIGHT = '#bbf7d0', RED = '#ef4444';
+
+  // ====== GEOMETRIJA (poševna projekcija: x,y ostaneta, z se preslika diagonalno) ==
+  const W = 1000, H = 740;
+  const KX = -0.6, KY = 0.7;             // smer "v globino": z<0 (proti steni) -> desno gor
+  const D = 70;                          // razdalja od sredine deske do stene
+  const R_BALL = 12;                     // polmer žogice
+  const Z_HIT = -(D - R_BALL);           // z središča žogice ob dotiku stene (enak za vse)
+  const CX = W / 2 + Z_HIT * KX;         // projekcija izhodišča sveta (sredina deske, zgornja ploskev)
+  const CY = 590;
+  const POST = 10;                       // višina nosilca palčke na deski
+  const BOARD = { cx: 0, halfX: 400, halfZ: 34, thick: 16 };
+  const WALL = { halfX: 470, top: 540 };
+  const LOGO = { w: 700, angle: -30, img: { w: 2000, h: 668, box: [56, 53, 1956, 593] } };  // širina, zasuk (° , negativno = CCW), vsebina
+
+  // ====== FIZIKA ==========================================================
+  const OMEGA1 = 2 * Math.PI * 0.55;     // frekvenca pri stopnji 1
+  const RATIO = 1.25;                    // vsaka stopnja frekvence = 25 % hitreje
+  const omegaOf = k => OMEGA1 * Math.pow(RATIO, k - 1);
+  const AMP1 = 1.72, AMP_RATIO = 1.4;    // amplituda deske: geometrijske stopnje (vsaka = 40 % več)
+  const ampOf = a => AMP1 * Math.pow(AMP_RATIO, a - 1);
+  const Z_FACTOR = 1.25;                 // pri pravi kombinaciji je ustaljena amplituda 1.25x razdalje do stene
+  const transmissibility = (w, w0, zeta) => {
+    const r = w / w0;
+    return Math.sqrt(1 + (2 * zeta * r) ** 2) / Math.sqrt((1 - r * r) ** 2 + (2 * zeta * r) ** 2);
+  };
+  const dropOf = (u, L) => 0.6 * u * u / L;   // skrajšanje višine vrha ob upogibu
+
+  // Palčke: položaj tarče v slikovnih pikah logotipa, stopnja frekvence k, stopnja amplitude a,
+  // zm = položaj nosilca na deski v globino (negativno = bližje steni -> manjša potrebna amplituda)
+  const rods = [
+    { name: 'X', chip: 0, px: 287,  py: 372, k: 10, a: 7, zm: +19, width: 4.4 },  // znak X: najkrajša, najhitrejša, najdlje od stene
+    { name: 'f', chip: 1, px: 664,  py: 380, k: 7,  a: 5, zm: -10, width: 3.8 },  // prečka črke f
+    { name: 'o', chip: 2, px: 1828, py: 437, k: 4,  a: 3, zm: -28, width: 3.2 },  // zadnji o: najdaljša, najpočasnejša, najbližje steni
+  ];
+  const REF_YT = 150;                    // višina tarče v znaku X (najnižja); ostale sledijo zasukanemu logotipu
+  for (const r of rods) {
+    r.w0 = omegaOf(r.k);
+    r.reach = -Z_HIT + r.zm;             // koliko se mora vrh premakniti proti steni
+    // dušenje nastavimo tako, da pri pravi (k, a) ustaljena amplituda doseže natanko Z_FACTOR * reach;
+    // ena stopnja amplitude manj (÷1.4) tarče ne doseže, ena več (×1.4) udari premočno
+    const T = Z_FACTOR * r.reach / ampOf(r.a);
+    r.zeta = 1 / (2 * Math.sqrt(T * T - 1));
+    r.u = 0; r.v = 0; r.solved = false; r.flash = 0; r.pulse = 0;
+  }
+
+  const project = (x, y, z) => [CX + x + z * KX, CY - y + z * KY];
+
+  // ====== DOM ============================================================
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  const freqEl = document.getElementById('freq');
+  const ampEl = document.getElementById('amp');
+  const freqOut = document.getElementById('freqOut');
+  const ampOut = document.getElementById('ampOut');
+  const msgEl = document.getElementById('msg');
+  const overlay = document.getElementById('overlay');
+  const chips = [0, 1, 2].map(i => document.getElementById('chip' + i));
+
+  const state = {
+    k: +freqEl.value, a: +ampEl.value,
+    omega: omegaOf(+freqEl.value), A: ampOf(+ampEl.value),
+    phase: 0, zb: 0, t: 0, done: false, doneAt: 0, msgTimer: 0,
+  };
+
+  // ====== POSTAVITEV LOGOTIPA IN PALČK ===================================
+  const logoImg = new Image();
+  const layout = { cx: 0, cy: 0, w: LOGO.w, h: 0, scale: 1, th: 0 };
+
+  function buildLayout() {
+    const s = LOGO.w / LOGO.img.w;
+    const th = LOGO.angle * Math.PI / 180, c = Math.cos(th), sn = Math.sin(th);
+    layout.scale = s; layout.h = LOGO.img.h * s; layout.th = th;
+    // točka logotipa (slikovne pike) -> odmik od središča zasukanega logotipa na zaslonu
+    const rel = (px, py) => {
+      const dx = (px - LOGO.img.w / 2) * s, dy = (py - LOGO.img.h / 2) * s;
+      return [dx * c - dy * sn, dx * sn + dy * c];
+    };
+    // vodoravno centriramo vsebino logotipa
+    const [bx0, by0, bx1, by1] = LOGO.img.box;
+    const corners = [[bx0, by0], [bx1, by0], [bx1, by1], [bx0, by1]].map(p => rel(...p));
+    const minX = Math.min(...corners.map(p => p[0])), maxX = Math.max(...corners.map(p => p[0]));
+    layout.cx = W / 2 - (minX + maxX) / 2;
+    // navpično: tarča v znaku X na višini REF_YT
+    const refScreenY = project(0, REF_YT, Z_HIT)[1];
+    layout.cy = refScreenY - rel(rods[0].px, rods[0].py)[1];
+
+    for (const r of rods) {
+      const [ox, oy] = rel(r.px, r.py);
+      const tx = layout.cx + ox, ty = layout.cy + oy;    // tarča na zaslonu
+      r.x = tx - CX - Z_HIT * KX;                        // svetovni x palčke
+      r.yT = CY - ty + Z_HIT * KY;                       // višina vrha ob dotiku
+      // dolžina palčke: L - drop(reach) = yT - POST
+      const y = r.yT - POST;
+      r.L = (y + Math.sqrt(y * y + 2.4 * r.reach * r.reach)) / 2;
+      r.tx = tx; r.ty = ty;
+    }
+    const xs = rods.map(r => r.x);
+    BOARD.cx = (Math.min(...xs) + Math.max(...xs)) / 2;
+    BOARD.halfX = (Math.max(...xs) - Math.min(...xs)) / 2 + 100;
+  }
+
+  // ====== ZVOK (neobvezno) ================================================
+  let audio = null;
+  function beep(freq, dur, type = 'sine', gain = 0.08) {
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = type; o.frequency.value = freq;
+      g.gain.setValueAtTime(gain, audio.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + dur);
+      o.connect(g).connect(audio.destination);
+      o.start(); o.stop(audio.currentTime + dur);
+    } catch (e) { /* brez zvoka */ }
+  }
+
+  // ====== SPOROČILA =======================================================
+  function say(text, cls = '', hold = 2.5) {
+    msgEl.textContent = text;
+    msgEl.className = cls;
+    state.msgTimer = hold;
+  }
+  function defaultMsg() {
+    const left = rods.filter(r => !r.solved).length;
+    if (left === 3) return 'Find the right frequency and amplitude for each rod.';
+    if (left === 2) return 'Hit! Two targets to go.';
+    if (left === 1) return 'Hit! One target to go.';
+    return 'All targets hit!';
+  }
+
+  // ====== SIMULACIJA ======================================================
+  function step(dt) {
+    const { omega, A } = state;
+    state.phase += omega * dt;
+    state.t += dt;
+    const s = Math.sin(state.phase);
+    state.zb = A * s;
+    const zbAcc = -A * omega * omega * s;     // pospešek deske (prečno)
+
+    for (const r of rods) {
+      if (r.solved) continue;
+      const acc = -2 * r.zeta * r.w0 * r.v - r.w0 * r.w0 * r.u - zbAcc;
+      r.v += acc * dt;
+      r.u += r.v * dt;
+      const zTip = r.zm + state.zb + r.u;
+      if (zTip <= Z_HIT) {
+        const okF = state.k === r.k, okA = state.a === r.a;
+        if (okF && okA) {
+          r.solved = true; r.pulse = 1;
+          chips[r.chip].classList.add('done');
+          beep(880, 0.35); setTimeout(() => beep(1320, 0.5), 120);
+          say(defaultMsg(), 'ok', 4);
+          if (rods.every(q => q.solved)) { state.done = true; state.doneAt = state.t; }
+        } else {
+          r.u = Z_HIT - r.zm - state.zb;
+          r.v = -r.v * 0.35;
+          if (r.flash <= 0) {
+            beep(140, 0.25, 'square', 0.05);
+            const why = !okF ? 'Wrong frequency – the board shakes too hard, the ball bounces off.'
+                      : state.a > r.a ? 'Amplitude too large – the ball hits too hard.'
+                      : 'Amplitude too small – the touch is too weak.';
+            say(why, 'bad', 1.8);
+          }
+          r.flash = 0.45;
+        }
       }
-    </script>
-  </body>
+      if (zTip > 3 * -Z_HIT) { r.u = 3 * -Z_HIT - r.zm - state.zb; r.v = Math.min(r.v, 0); }
+    }
+    for (const r of rods) { r.flash = Math.max(0, r.flash - dt); r.pulse = Math.max(0, r.pulse - dt * 0.8); }
+    if (state.msgTimer > 0) { state.msgTimer -= dt; if (state.msgTimer <= 0 && !state.done) say(defaultMsg(), '', 0); }
+  }
+
+  // ====== RISANJE =========================================================
+  function tipState(r) {
+    if (r.solved) return { y: r.yT, z: Z_HIT, u: Z_HIT - r.zm - state.zb };
+    return { y: POST + r.L - dropOf(r.u, r.L), z: r.zm + state.zb + r.u, u: r.u };
+  }
+  function rodCurve(r, t) {
+    // oblika upognjene konzole: w(s) = u * (3s^2 - s^3)/2
+    const pts = [];
+    const drop = r.L - (t.y - POST);
+    for (let i = 0; i <= 16; i++) {
+      const s = i / 16;
+      const y = POST + r.L * s - drop * s * s;
+      const z = r.zm + state.zb + t.u * (3 * s * s - s * s * s) / 2;
+      pts.push(project(r.x, y, z));
+    }
+    return pts;
+  }
+
+  function roundRect(x, y, w, h, rad) {
+    ctx.beginPath();
+    ctx.moveTo(x + rad, y); ctx.lineTo(x + w - rad, y); ctx.quadraticCurveTo(x + w, y, x + w, y + rad);
+    ctx.lineTo(x + w, y + h - rad); ctx.quadraticCurveTo(x + w, y + h, x + w - rad, y + h);
+    ctx.lineTo(x + rad, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - rad);
+    ctx.lineTo(x, y + rad); ctx.quadraticCurveTo(x, y, x + rad, y); ctx.closePath();
+  }
+
+  function drawTarget(x, y, hit, flash, pulse) {
+    const R = 27;
+    const ringA = hit ? GREEN : flash > 0 ? RED : BLUE;
+    const ringB = '#ffffff';
+    const cross = hit ? GREEN_DARK : INK;
+    ctx.save();
+    if (hit) { ctx.shadowColor = 'rgba(34,197,94,.8)'; ctx.shadowBlur = 16 + 30 * pulse; }
+    else if (flash > 0) { ctx.shadowColor = 'rgba(239,68,68,.8)'; ctx.shadowBlur = 22; }
+    ctx.beginPath(); ctx.arc(x, y, R + 2.5, 0, Math.PI * 2); ctx.fillStyle = INK; ctx.fill();   // temen rob
+    ctx.shadowBlur = 0;
+    for (const [rr, col] of [[R, ringA], [R * 0.66, ringB], [R * 0.33, ringA]]) {
+      ctx.beginPath(); ctx.arc(x, y, rr, 0, Math.PI * 2); ctx.fillStyle = col; ctx.fill();
+    }
+    ctx.strokeStyle = cross; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x - R - 10, y); ctx.lineTo(x + R + 10, y);
+    ctx.moveTo(x, y - R - 10); ctx.lineTo(x, y + R + 10);
+    ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fillStyle = cross; ctx.fill();
+    ctx.restore();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // --- ozadje
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, '#f7f9fb'); bg.addColorStop(1, '#e9edf2');
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+    // --- stena (ravnina z = -D)
+    const [wx0, wy0] = project(-WALL.halfX, WALL.top, -D);
+    const [wx1, wy1] = project(WALL.halfX, 0, -D);
+    ctx.save();
+    ctx.shadowColor = 'rgba(40,39,42,.12)'; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10;
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(wx0, wy0, wx1 - wx0, wy1 - wy0);
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(40,39,42,.05)'; ctx.lineWidth = 1;
+    for (let gx = wx0 + 40; gx < wx1; gx += 40) { ctx.beginPath(); ctx.moveTo(gx, wy0); ctx.lineTo(gx, wy1); ctx.stroke(); }
+    for (let gy = wy1 - 40; gy > wy0; gy -= 40) { ctx.beginPath(); ctx.moveTo(wx0, gy); ctx.lineTo(wx1, gy); ctx.stroke(); }
+    ctx.fillStyle = BLUE; ctx.fillRect(wx0, wy1 - 4, wx1 - wx0, 4);   // modra črta ob vznožju stene
+
+    // --- tla
+    const [fx0, fy0] = project(-WALL.halfX, 0, -D);
+    const [fx1] = project(WALL.halfX, 0, -D);
+    const zBottom = (H - CY) / KY;
+    const [bx0] = project(-WALL.halfX, 0, zBottom);
+    const [bx1] = project(WALL.halfX, 0, zBottom);
+    const floorG = ctx.createLinearGradient(0, fy0, 0, H);
+    floorG.addColorStop(0, '#dfe5ec'); floorG.addColorStop(1, '#cbd3dd');
+    ctx.fillStyle = floorG;
+    ctx.beginPath(); ctx.moveTo(fx0, fy0); ctx.lineTo(fx1, fy0); ctx.lineTo(bx1, H); ctx.lineTo(bx0, H); ctx.closePath(); ctx.fill();
+
+    // --- zasukan logotip na steni
+    if (logoImg.complete && logoImg.naturalWidth) {
+      ctx.save();
+      ctx.translate(layout.cx, layout.cy);
+      ctx.rotate(layout.th);
+      ctx.drawImage(logoImg, -layout.w / 2, -layout.h / 2, layout.w, layout.h);
+      ctx.restore();
+    }
+    for (const r of rods) drawTarget(r.tx, r.ty, r.solved, r.flash, r.pulse);
+
+    // --- sence žogic na steni (bližanje tarči)
+    for (const r of rods) {
+      if (r.solved) continue;
+      const t = tipState(r);
+      const near = Math.max(0, Math.min(1, (Z_HIT + 40 - t.z) / 40));
+      if (near <= 0) continue;
+      const [sx, sy] = project(r.x, t.y, -D);
+      ctx.beginPath(); ctx.arc(sx, sy, R_BALL * (1.6 - 0.5 * near), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(40,39,42,${0.28 * near})`; ctx.fill();
+    }
+
+    // --- deska (premaknjena za zb v smeri z)
+    const zb = state.zb;
+    const B = BOARD;
+    const P = (dx, dz) => project(B.cx + dx, 0, dz + zb);
+    const top = [P(-B.halfX, -B.halfZ), P(B.halfX, -B.halfZ), P(B.halfX, B.halfZ), P(-B.halfX, B.halfZ)];
+    const bot = top.map(([x, y]) => [x, y + B.thick]);
+    ctx.save();
+    ctx.shadowColor = 'rgba(40,39,42,.25)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 8;
+    ctx.fillStyle = INK;
+    ctx.beginPath(); ctx.moveTo(...top[3]); ctx.lineTo(...top[2]); ctx.lineTo(...bot[2]); ctx.lineTo(...bot[3]); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = '#1b1b1e';
+    ctx.beginPath(); ctx.moveTo(...top[2]); ctx.lineTo(...top[1]); ctx.lineTo(...bot[1]); ctx.lineTo(...bot[2]); ctx.closePath(); ctx.fill();
+    const tg = ctx.createLinearGradient(top[0][0], top[0][1], top[3][0], top[3][1]);
+    tg.addColorStop(0, '#4a4a50'); tg.addColorStop(1, '#38383d');
+    ctx.fillStyle = tg;
+    ctx.beginPath(); top.forEach((p, i) => i ? ctx.lineTo(...p) : ctx.moveTo(...p)); ctx.closePath(); ctx.fill();
+    // črte globine na deski (pomagajo videti, kako daleč od stene stoji posamezna palčka)
+    ctx.strokeStyle = 'rgba(255,255,255,.10)'; ctx.lineWidth = 1;
+    for (let dz = -B.halfZ + 10; dz < B.halfZ; dz += 10) {
+      const a = P(-B.halfX, dz), b = P(B.halfX, dz);
+      ctx.beginPath(); ctx.moveTo(...a); ctx.lineTo(...b); ctx.stroke();
+    }
+    // moder rob na sprednji ploskvi
+    ctx.fillStyle = BLUE;
+    ctx.beginPath(); ctx.moveTo(...top[3]); ctx.lineTo(...top[2]); ctx.lineTo(top[2][0], top[2][1] + 4); ctx.lineTo(top[3][0], top[3][1] + 4); ctx.closePath(); ctx.fill();
+    // vodila (nakazujejo prečno smer gibanja)
+    ctx.strokeStyle = 'rgba(40,39,42,.25)'; ctx.setLineDash([6, 6]); ctx.lineWidth = 1.5;
+    for (const sx of [B.cx - B.halfX - 34, B.cx + B.halfX + 34]) {
+      const a = project(sx, 0, -D + 10), b = project(sx, 0, 90);
+      ctx.beginPath(); ctx.moveTo(a[0], a[1] + B.thick); ctx.lineTo(b[0], b[1] + B.thick); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    {
+      const a = project(B.cx + B.halfX + 34, 0, -D + 10), b = project(B.cx + B.halfX + 34, 0, 90);
+      ctx.fillStyle = BLUE;
+      for (const [p, dir] of [[a, -1], [b, 1]]) {
+        const ux = (b[0] - a[0]), uy = (b[1] - a[1]), len = Math.hypot(ux, uy), nx = ux / len * dir, ny = uy / len * dir;
+        ctx.beginPath(); ctx.moveTo(p[0] + nx * 8, p[1] + B.thick + ny * 8);
+        ctx.lineTo(p[0] - ny * 5, p[1] + B.thick + nx * 5); ctx.lineTo(p[0] + ny * 5, p[1] + B.thick - nx * 5); ctx.closePath(); ctx.fill();
+      }
+    }
+
+    // --- sence žogic na deski/tleh
+    for (const r of rods) {
+      const t = tipState(r);
+      const [sx, sy] = project(r.x, 0, t.z);
+      ctx.beginPath(); ctx.ellipse(sx, sy, R_BALL * 1.1, R_BALL * 0.55, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fill();
+    }
+
+    // --- nosilci in palčke (od zadaj naprej)
+    const order = [...rods].sort((p, q) => p.zm - q.zm);
+    for (const r of order) {
+      const t = tipState(r);
+      const [px0, py0] = project(r.x, 0, r.zm + zb);
+      const [px1, py1] = project(r.x, POST, r.zm + zb);
+      const pw = 18;
+      ctx.fillStyle = '#5a5a61';
+      roundRect(px1 - pw / 2, py1, pw, py0 - py1, 3); ctx.fill();
+      ctx.fillStyle = '#74747c';
+      ctx.beginPath(); ctx.ellipse(px1, py1, pw / 2, pw / 4, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = BLUE;
+      ctx.beginPath(); ctx.ellipse(px1, py1, 4, 2, 0, 0, Math.PI * 2); ctx.fill();
+
+      const pts = rodCurve(r, t);
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(40,39,42,.25)'; ctx.lineWidth = r.width + 2.5;
+      ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(...p) : ctx.moveTo(...p)); ctx.stroke();
+      ctx.strokeStyle = r.solved ? GREEN_DARK : INK; ctx.lineWidth = r.width;
+      ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(...p) : ctx.moveTo(...p)); ctx.stroke();
+      ctx.strokeStyle = r.solved ? GREEN_LIGHT : 'rgba(255,255,255,.45)'; ctx.lineWidth = 1;
+      ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0] - 1, p[1]) : ctx.moveTo(p[0] - 1, p[1])); ctx.stroke();
+
+      // žogica
+      const [tx, ty] = project(r.x, t.y, t.z);
+      const rad = R_BALL * (1 + 0.5 * r.pulse);
+      const g = ctx.createRadialGradient(tx - rad * 0.35, ty - rad * 0.35, rad * 0.1, tx, ty, rad);
+      if (r.solved) { g.addColorStop(0, GREEN_LIGHT); g.addColorStop(0.55, GREEN); g.addColorStop(1, GREEN_DARK); }
+      else { g.addColorStop(0, '#d6f0ff'); g.addColorStop(0.5, BLUE); g.addColorStop(1, BLUE_DARK); }
+      ctx.save();
+      if (r.solved) { ctx.shadowColor = 'rgba(34,197,94,.7)'; ctx.shadowBlur = 16 + 24 * r.pulse; }
+      else { ctx.shadowColor = 'rgba(0,148,228,.35)'; ctx.shadowBlur = 10; }
+      ctx.beginPath(); ctx.arc(tx, ty, rad, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
+      ctx.restore();
+    }
+
+    // --- HUD
+    ctx.font = '700 13px Quicksand, sans-serif'; ctx.fillStyle = 'rgba(40,39,42,.6)'; ctx.textAlign = 'left';
+    ctx.fillText(`board motion: ${(state.omega / (2 * Math.PI)).toFixed(2)} Hz  ·  amplitude ±${state.A.toFixed(1)} mm`, 18, 26);
+  }
+
+  // ====== ZANKA ===========================================================
+  let last = performance.now();
+  function frame(now) {
+    let dt = Math.min(0.05, (now - last) / 1000); last = now;
+    const sub = Math.max(1, Math.ceil(dt / (1 / 240)));
+    for (let i = 0; i < sub; i++) step(dt / sub);
+    draw();
+    if (state.done && state.t - state.doneAt > 1.2 && !overlay.classList.contains('show')) {
+      overlay.classList.add('show'); overlay.setAttribute('aria-hidden', 'false');
+      if (REMEMBER_IN_SESSION) { try { sessionStorage.setItem('flexido_gate_solved', '1'); } catch (e) {} }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // ====== DOGODKI =========================================================
+  freqEl.addEventListener('input', () => { state.k = +freqEl.value; state.omega = omegaOf(state.k); freqOut.textContent = state.k; });
+  ampEl.addEventListener('input', () => { state.a = +ampEl.value; state.A = ampOf(state.a); ampOut.textContent = state.a; });
+  document.getElementById('reset').addEventListener('click', reset);
+  document.getElementById('enter').addEventListener('click', () => { window.location.href = TARGET_URL; });
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { freqEl.value = Math.min(10, state.k + 1); freqEl.dispatchEvent(new Event('input')); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { freqEl.value = Math.max(1, state.k - 1); freqEl.dispatchEvent(new Event('input')); }
+    if (e.key === '+') { ampEl.value = Math.min(10, state.a + 1); ampEl.dispatchEvent(new Event('input')); }
+    if (e.key === '-') { ampEl.value = Math.max(1, state.a - 1); ampEl.dispatchEvent(new Event('input')); }
+  });
+
+  function reset() {
+    rods.forEach(r => { r.u = 0; r.v = 0; r.solved = false; r.flash = 0; r.pulse = 0; });
+    chips.forEach(c => c.classList.remove('done'));
+    state.done = false; state.phase = 0;
+    state.k = +freqEl.value; state.a = +ampEl.value; state.omega = omegaOf(state.k); state.A = ampOf(state.a);
+    try { sessionStorage.removeItem('flexido_gate_solved'); } catch (e) {}
+    overlay.classList.remove('show'); overlay.setAttribute('aria-hidden', 'true');
+    say(defaultMsg(), '', 0);
+  }
+
+  // ====== ZAGON ===========================================================
+  function setupCanvas() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  let started = false;
+  function start() {
+    if (started) return; started = true;
+    setupCanvas();
+    buildLayout();
+    freqOut.textContent = state.k; ampOut.textContent = state.a;
+    try {
+      if (REMEMBER_IN_SESSION && sessionStorage.getItem('flexido_gate_solved') === '1') {
+        rods.forEach(r => { r.solved = true; });
+        chips.forEach(c => c.classList.add('done'));
+        state.done = true; state.doneAt = -10;
+        say('Puzzle already solved.', 'ok', 0);
+      }
+    } catch (e) {}
+    requestAnimationFrame(frame);
+  }
+  const logoReady = new Promise(res => { logoImg.onload = res; logoImg.onerror = res; logoImg.src = LOGO_SRC; });
+  const fontReady = (document.fonts && document.fonts.load) ? document.fonts.load('700 13px Quicksand') : Promise.resolve();
+  Promise.race([Promise.all([logoReady, fontReady]), new Promise(res => setTimeout(res, 2500))]).then(start, start);
+
+  // za testiranje / razhroščevanje
+  window.FLEXIDO = { state, rods, step, reset, omegaOf, ampOf, transmissibility, Z_HIT, layout, BOARD };
+})();
+</script>
+</body>
 </html>
